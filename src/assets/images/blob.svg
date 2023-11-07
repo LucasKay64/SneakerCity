@@ -1,0 +1,12 @@
+<svg id="visual" viewBox="0 0 500 500" width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+    <g transform="translate(482.2188398383509 40.66351052571579)">
+    
+        <!-- Define the linear gradient -->
+        <linearGradient id="gradient" gradientTransform="rotate(45)">
+            <stop offset="0%" stop-color="#068FFF" />
+            <stop offset="100%" stop-color="#C74F5D" />
+        </linearGradient>
+
+        <path d="M300.4 -397.5C389.5 -348.6 462.3 -261.2 472.4 -168.1C482.5 -75 430 23.8 388.2 117.9C346.3 212 315.1 301.4 252.2 339.5C189.3 377.7 94.6 364.6 3.6 359.6C-87.4 354.7 -174.8 357.7 -237.5 319.5C-300.3 281.3 -338.5 201.9 -376.9 115C-415.3 28.2 -454 -65.9 -431.4 -141.6C-408.8 -217.3 -324.9 -274.5 -242.8 -325.6C-160.7 -376.8 -80.3 -421.9 12.6 -439.3C105.6 -456.7 211.2 -446.4 300.4 -397.5" fill="#068FFF"></path>
+    </g>
+</svg>
