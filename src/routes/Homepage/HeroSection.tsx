@@ -11,7 +11,7 @@ import Emblem from "../../components/Emblem/Emblem";
 
 const HeroSection = () => {
   return (
-    <section>
+    <section className="px-2">
       <div>
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
