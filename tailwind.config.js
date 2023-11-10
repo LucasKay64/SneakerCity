@@ -7,6 +7,12 @@ export default {
         "blue-primary": "#068FFF",
         "blue-secondary": "#4E4FEB",
       },
+      spacing: {
+        navbar: "50.13px", // for screens under sm
+        "navbar-md": "",
+        "navbar-lg": "",
+        "navbar-xl": "",
+      },
     },
   },
   plugins: [],
