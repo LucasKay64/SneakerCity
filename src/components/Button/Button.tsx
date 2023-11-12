@@ -11,6 +11,7 @@ const buttonVariants = cva("rounded-xl", {
     },
     size: {
       default: "px-5 py-2",
+      lg: "px-8 py-4",
       none: "",
     },
   },

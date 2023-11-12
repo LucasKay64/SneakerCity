@@ -1,15 +1,30 @@
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../../utils/utils";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+const inputVariants = cva("border border-gray-300 rounded-xl w-full", {
+  variants: {
+    inputSize: {
+      default: "p-2",
+      lg: "px-3 py-4",
+    },
+  },
+  defaultVariants: {
+    inputSize: "default",
+  },
+});
+
+interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement>,
+    VariantProps<typeof inputVariants> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, inputSize, ...props }, ref) => {
     return (
       <input
         ref={ref}
-        className={cn("border border-gray-300 rounded-xl p-2", className)}
+        className={cn(inputVariants({ inputSize, className }))}
         {...props}
       />
     );
