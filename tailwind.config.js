@@ -9,9 +9,9 @@ export default {
       },
       spacing: {
         navbar: "50.13px", // for screens under sm
-        "navbar-md": "",
-        "navbar-lg": "",
-        "navbar-xl": "",
+        "navbar-sm": "58.13px",
+        "navbar-md": "75.2px",
+        "navbar-lg": "84px",
       },
     },
   },

@@ -11,20 +11,20 @@ import Emblem from "../../components/Emblem/Emblem";
 
 const HeroSection = () => {
   return (
-    <section className="px-2">
-      <div>
-        <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+    <section className="px-2 sm:px-10 lg:px-24 flex flex-col items-center">
+      <div className="xl:flex xl:items-center xl:w-full xl:justify-between">
+        <div className="text-center sm:pt-2 xl:text-left">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
             Sneaker City: <br /> Your Ultimate Footwear Destination
           </h1>
 
-          <h2 className="text-base leading-6 mt-2 text-gray-600">
+          <h2 className="text-base md:text-lg leading-6 mt-2 text-gray-600 xl:mt-4">
             Find the perfect pair of sneakers to match your fresh fit.
             <br />
             Official Nike, Adidas and Jordan retailer.
           </h2>
 
-          <Button className="mt-4">Explore Collections</Button>
+          <Button className="mt-4 xl:mt-8">Explore Collections</Button>
         </div>
 
         <div className="relative">
@@ -32,7 +32,7 @@ const HeroSection = () => {
 
           <img
             src={BlobMobile}
-            className="absolute top-0 opacity-60 -z-10 w-11/12"
+            className="absolute top-0 opacity-60 -z-10 w-11/12 xl:hidden"
             draggable="false"
           />
         </div>
@@ -44,7 +44,12 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="flex flex-col items-center gap-2">
+      <div
+        className="
+        flex flex-col items-center gap-2 w-full
+        lg:flex-row lg:gap-0 lg:justify-between
+        "
+      >
         <Emblem
           icon={SecurePaymentIcon}
           title="Secure Payment"

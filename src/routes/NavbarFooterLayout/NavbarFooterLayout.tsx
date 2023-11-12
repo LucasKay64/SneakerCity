@@ -6,7 +6,7 @@ const NavbarFooterLayout = () => {
   return (
     <>
       <Navbar />
-      <div className="mt-navbar">
+      <div className="mt-navbar sm:mt-navbar-sm md:mt-navbar-md lg:mt-navbar-lg">
         <Outlet />
       </div>
       <Footer />
