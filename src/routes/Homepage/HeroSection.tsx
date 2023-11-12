@@ -39,7 +39,7 @@ const HeroSection = () => {
 
         <img
           src={Blob}
-          className="w-1/4 absolute top-0 right-0 opacity-60 -z-10"
+          className="w-1/4 min-[1920px]:w-1/5 absolute top-0 right-0 opacity-60 -z-10"
           draggable="false"
         />
       </div>
