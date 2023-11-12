@@ -6,7 +6,7 @@ interface FooterInfoLinkProps {
 const FooterInfoLink = ({ title, links }: FooterInfoLinkProps) => {
   return (
     <div>
-      <h3 className="text-lg font-bold">{title}</h3>
+      <h3 className="text-lg sm:text-xl font-bold">{title}</h3>
       <ul className="mt-1 text-base">
         {links.map((link, index) => (
           <li key={index}>

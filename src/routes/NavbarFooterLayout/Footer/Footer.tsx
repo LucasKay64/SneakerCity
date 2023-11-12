@@ -6,12 +6,12 @@ const Footer = () => {
     <div
       className="bg-gradient-to-r from-blue-primary to-blue-secondary
         text-white
-        flex flex-col items-center flex-wrap gap-4
+        flex flex-col items-center gap-4 lg:flex-row lg:px-24 lg:justify-between
         px-2
         py-8"
     >
       <img src={LogoWithText} alt="Footer logo" />
-      <div className="flex flex-col text-center gap-4">
+      <div className="flex flex-col text-center gap-4 sm:flex-row sm:gap-10 sm:text-start xl:gap-32">
         <FooterInfoLink
           title="About"
           links={["About us", "Features", "News & Blog"]}
