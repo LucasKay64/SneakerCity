@@ -17,7 +17,7 @@ const TopSellingProductsSection = () => {
       <h3 className="text-center text-2xl font-bold text-white py-4">
         Top Selling Products
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4  gap-8">
         {Array.from({ length: 6 }, (_, index) => (
           <ProductCard key={index}>
             <ProductCardImage src={HeroImage} alt="Nike Air Force 1" />

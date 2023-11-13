@@ -3,7 +3,7 @@ import { Input } from "../../components/Input/Input";
 
 const NewsletterSection = () => {
   return (
-    <section className="py-12 px-2">
+    <section className="py-28 px-2">
       <p className="text-center text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">
         Subscribe to our newsletter
       </p>
