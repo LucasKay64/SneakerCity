@@ -7,6 +7,8 @@ import ShoppingCartWhite from "../../../assets/icons/shopping-cart-white.svg";
 import { useEffect, useState } from "react";
 
 import NavLink from "../../../components/NavLink/NavLink";
+import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownMenuMobile";
+import Backdrop from "../../../components/Backdrop/Backdrop";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,34 +52,19 @@ const Navbar = () => {
 
         <img src={Logo} alt="logo" className="w-8 sm:w-10 md:w-12 lg:w-14" />
 
-        <ul
-          className={`
-            fixed
-            overflow-hidden
-            top-navbar sm:top-navbar-sm md:top-navbar-md left-0 right-0
-            bg-white
-            transition-[max-height] duration-500 ease-in-out
-            ${isMenuOpen ? "max-h-36" : "max-h-0"}
+        {/* dropdown menu visible on mobile view only */}
+        <DropdownMenuMobile isMenuOpen={isMenuOpen}>
+          <NavLink to="/">Shop</NavLink>
+          <NavLink to="/">About</NavLink>
+          <NavLink to="/">Contact</NavLink>
+        </DropdownMenuMobile>
 
-            lg:static
-            lg:bg-transparent
-            lg:max-h-none
-          `}
-        >
-          <div
-            className="
-              flex flex-col items-center
-              py-2
-              
-              lg:flex-row
-              lg:gap-x-20
-              "
-          >
-            <NavLink to="/">Shop</NavLink>
-            <NavLink to="/">About</NavLink>
-            <NavLink to="/">Contact</NavLink>
-          </div>
-        </ul>
+        {/* inline menu for desktop view */}
+        <div className="hidden lg:flex lg:gap-x-20">
+          <NavLink to="/">Shop</NavLink>
+          <NavLink to="/">About</NavLink>
+          <NavLink to="/">Contact</NavLink>
+        </div>
 
         <img
           src={isMenuOpen || isScrolled ? ShoppingCartBlack : ShoppingCartWhite}
@@ -86,19 +73,7 @@ const Navbar = () => {
         />
       </nav>
 
-      {/* backdrop */}
-      <div
-        className={`
-            fixed
-            overflow-hidden
-            top-navbar sm:top-navbar-sm md:top-navbar-md left-0 right-0 bottom-0
-            transition-[--tw-bg-opacity] duration-500 ease-in-out
-            
-            ${
-              isMenuOpen ? "z-30 bg-black bg-opacity-30 " : "-z-50 bg-opacity-0"
-            }
-        `}
-      ></div>
+      <Backdrop isVisible={isMenuOpen} />
     </>
   );
 };

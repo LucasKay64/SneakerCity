@@ -26,7 +26,6 @@ const TopSellingProductsSection = () => {
               Adidas x jordan collab
             </ProductCardDescription>
             <ProductCardPrice>$100</ProductCardPrice>
-            <ProductCardButton>Add to cart</ProductCardButton>
           </ProductCard>
         ))}
       </div>
