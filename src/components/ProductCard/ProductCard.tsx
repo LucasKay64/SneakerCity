@@ -25,7 +25,11 @@ const ProductCardImage = React.forwardRef<
   HTMLImageElement,
   ProductCardImageProps
 >(({ className, ...props }, ref) => (
-  <img ref={ref} className={cn("border-b", className)} {...props} />
+  <img
+    ref={ref}
+    className={cn("border-b w-full h-48 object-contain", className)}
+    {...props}
+  />
 ));
 ProductCardImage.displayName = "ProductCardImage";
 
@@ -35,7 +39,10 @@ const ProductCardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-xl text-center font-bold", className)}
+    className={cn(
+      "text-xl text-center font-bold whitespace-nowrap overflow-hidden text-ellipsis px-3",
+      className
+    )}
     {...props}
   />
 ));
@@ -47,7 +54,10 @@ const ProductCardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-center text-gray-500", className)}
+    className={cn(
+      "text-sm text-center text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis px-3",
+      className
+    )}
     {...props}
   />
 ));
