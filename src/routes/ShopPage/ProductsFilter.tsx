@@ -6,6 +6,7 @@ import {
   AccordionDropdownHeader,
   AccordionDropdownContent,
 } from "../../components/AccordionDropdown/AccordionDropdown";
+import FilterCheckboxGroup from "../../components/FilterCheckboxGroup/FilterCheckboxGroup";
 
 import FilterIconWhite from "../../assets/icons/filter-icon-white.svg";
 import FilterIconBlack from "../../assets/icons/filter-icon-black.svg";
@@ -24,28 +25,33 @@ const ProductsFilter = () => {
       {/* dropdown menu with filters visible on mobile view only */}
       <DropdownMenuMobile isMenuOpen={isFilterOpen}>
         <AccordionDropdown>
-          <AccordionDropdownHeader>Filter 1</AccordionDropdownHeader>
+          <AccordionDropdownHeader>Brand</AccordionDropdownHeader>
           <AccordionDropdownContent>
-            <p>Filter 1</p>
-            <p>Filter 2</p>
-            <p>Filter 3</p>
-            <p>Filter 4</p>
-            <p>Filter 5</p>
-            <p>Filter 6</p>
-            <p>Filter 7</p>
+            <FilterCheckboxGroup
+              groupName="brand"
+              options={[
+                { id: "adidas", value: "Adidas", label: "Adidas" },
+                { id: "jordan", value: "Jordan", label: "Jordan" },
+                { id: "nike", value: "Nike", label: "Nike" },
+              ]}
+            />
           </AccordionDropdownContent>
         </AccordionDropdown>
 
         <AccordionDropdown>
-          <AccordionDropdownHeader>Filter 2</AccordionDropdownHeader>
+          <AccordionDropdownHeader>Colors</AccordionDropdownHeader>
           <AccordionDropdownContent>
-            <p>Filter 1</p>
-            <p>Filter 2</p>
-            <p>Filter 3</p>
-            <p>Filter 4</p>
-            <p>Filter 5</p>
-            <p>Filter 6</p>
-            <p>Filter 7</p>
+            <FilterCheckboxGroup
+              groupName="color"
+              options={[
+                { id: "black", value: "black", label: "Black" },
+                { id: "white", value: "white", label: "White" },
+                { id: "red", value: "red", label: "Red" },
+                { id: "green", value: "green", label: "Green" },
+                { id: "blue", value: "blue", label: "Blue" },
+                { id: "brown", value: "brown", label: "Brown" },
+              ]}
+            />
           </AccordionDropdownContent>
         </AccordionDropdown>
       </DropdownMenuMobile>
