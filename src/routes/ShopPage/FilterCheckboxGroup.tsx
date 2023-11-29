@@ -1,4 +1,4 @@
-import { Checkbox } from "../Checkbox/Checkbox";
+import { Checkbox } from "../../components/Checkbox/Checkbox";
 
 import { useSearchParams } from "react-router-dom";
 

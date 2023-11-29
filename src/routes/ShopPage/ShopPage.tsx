@@ -14,10 +14,10 @@ const ShopPage = () => {
           windowWidth >= lgBreakpoint ? `calc(100vh - ${navbarLg})` : "0",
       }}
     >
-      <div>
+      <div className="lg:flex-1">
         <ProductsFilter />
       </div>
-      <div className="lg:flex-1">
+      <div className="lg:flex-[5]">
         <ProductsList />
       </div>
     </section>

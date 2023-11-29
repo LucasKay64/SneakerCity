@@ -10,14 +10,16 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, children, id, ...props }, ref) => {
     return (
       <div className={cn("flex items-center", className)}>
-        <input
-          ref={ref}
-          id={id}
-          type="checkbox"
-          className={cn("mr-2")}
-          {...props}
-        />
-        <label htmlFor={id}>{children}</label>
+        <label>
+          <input
+            ref={ref}
+            id={id}
+            type="checkbox"
+            className={cn("mr-2")}
+            {...props}
+          />
+          {children}
+        </label>
       </div>
     );
   }
