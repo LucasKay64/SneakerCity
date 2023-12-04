@@ -9,7 +9,7 @@ import {
 
 import { Product } from "../../types/dataTypes";
 import { fetchData } from "../../utils/dataUtils";
-import { filtersParsingConfig } from "../../configs/filterParsingConfig";
+import { filtersParsingConfig } from "../../configs/filtersParsingConfig";
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
