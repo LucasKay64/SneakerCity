@@ -34,6 +34,7 @@ const ProductsFilterOptions = () => {
               { id: "green", value: "green", label: "Green" },
               { id: "blue", value: "blue", label: "Blue" },
               { id: "brown", value: "brown", label: "Brown" },
+              { id: "orange", value: "orange", label: "Orange" },
             ]}
           />
         </AccordionDropdownContent>

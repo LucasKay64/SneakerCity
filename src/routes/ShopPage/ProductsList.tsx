@@ -9,40 +9,59 @@ import {
 
 import { Product } from "../../types/dataTypes";
 import { fetchData } from "../../utils/dataUtils";
+import { filtersParsingConfig } from "../../configs/filterParsingConfig";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const ProductsList = () => {
+  const [searchParams] = useSearchParams();
+
   const [products, setProducts] = useState<Product[]>([]);
 
-  console.log(products);
-
   useEffect(() => {
+    const currentParams = Object.fromEntries([...searchParams]);
+
+    const filterQueries: string[] = [];
+
+    for (const [key, value] of Object.entries(currentParams)) {
+      const config = filtersParsingConfig[key];
+
+      if (config) {
+        const values = value.split(",");
+
+        const filterQuery = values.map(config.format).join(",");
+        filterQueries.push(`or=(${filterQuery})`);
+      }
+    }
+
     const fetchProducts = async () => {
       const data = await fetchData<Product[]>(
         `${
           import.meta.env.VITE_SUPABASE_API_URL
-        }/Products?select=id,name,brand,price,color,collection,image_url`
+        }/Products?select=id,name,price,collection,image_url&${filterQueries.join(
+          "&"
+        )}`
       );
+
+      // &or=(brand.like.Adidas,brand.like.Nike)&or=(color.like.*white*,color.like.*green*)
 
       setProducts(data);
     };
 
     fetchProducts();
-  }, []);
+  }, [searchParams]);
 
   return (
     <div>
       <p className="text-center font-bold text-2xl">Our collection</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-5 py-4">
-        {products.map((product) => (
-          <ProductCard key={product.id}>
-            <ProductCardImage src={product.image_url} alt={product.name} />
-            <ProductCardTitle>{product.name}</ProductCardTitle>
-            <ProductCardDescription>
-              {product.collection}
-            </ProductCardDescription>
-            <ProductCardPrice>${product.price}</ProductCardPrice>
+        {products.map(({ id, image_url, name, collection, price }) => (
+          <ProductCard key={id}>
+            <ProductCardImage src={image_url} alt={name} />
+            <ProductCardTitle>{name}</ProductCardTitle>
+            <ProductCardDescription>{collection}</ProductCardDescription>
+            <ProductCardPrice>${price}</ProductCardPrice>
             <ProductCardButton>Add to cart</ProductCardButton>
           </ProductCard>
         ))}
