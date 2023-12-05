@@ -21,17 +21,13 @@ const ProductsList = () => {
 
   useEffect(() => {
     const currentParams = Object.fromEntries([...searchParams]);
-
     const filterQueries: string[] = [];
 
     for (const [key, value] of Object.entries(currentParams)) {
       const config = filtersParsingConfig[key];
 
       if (config) {
-        const values = value.split(",");
-
-        const filterQuery = values.map(config.format).join(",");
-        filterQueries.push(`or=(${filterQuery})`);
+        filterQueries.push(config.buildQuery(value));
       }
     }
 

@@ -1,6 +1,5 @@
 interface FilterConfig {
-  operation: string;
-  format: (value: string) => string;
+  buildQuery: (value: string) => string;
 }
 
 interface FiltersParsingConfig {
@@ -9,12 +8,30 @@ interface FiltersParsingConfig {
 
 export const filtersParsingConfig: FiltersParsingConfig = {
   brand: {
-    operation: "like",
-    format: (value: string) => `brand.like.*${value}*`,
+    buildQuery: (value: string) => {
+      const query = value
+        .split(",")
+        .map((val) => `brand.like.*${val}*`)
+        .join(",");
+
+      return `or=(${query})`;
+    },
   },
   color: {
-    operation: "like",
-    format: (value: string) => `color.like.*${value}*`,
+    buildQuery: (value: string) => {
+      const query = value
+        .split(",")
+        .map((val) => `color.like.*${val}*`)
+        .join(",");
+
+      return `or=(${query})`;
+    },
+  },
+  minPrice: {
+    buildQuery: (value: string) => `price=gte.${value}`,
+  },
+  maxPrice: {
+    buildQuery: (value: string) => `price=lte.${value}`,
   },
   //... more filters
 };
