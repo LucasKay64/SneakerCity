@@ -12,6 +12,7 @@ import { fetchData } from "../../utils/dataUtils";
 import { filtersParsingConfig } from "../../configs/filtersParsingConfig";
 
 import { useEffect, useState } from "react";
+import { useDebounce } from "../../hooks/useDebounce";
 import { useSearchParams } from "react-router-dom";
 
 const ProductsList = () => {
@@ -19,7 +20,7 @@ const ProductsList = () => {
 
   const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
+  const debouncedFetchProducts = useDebounce(() => {
     const currentParams = Object.fromEntries([...searchParams]);
     const filterQueries: string[] = [];
 
@@ -46,6 +47,11 @@ const ProductsList = () => {
     };
 
     fetchProducts();
+  }, 500);
+
+  useEffect(() => {
+    debouncedFetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   return (
