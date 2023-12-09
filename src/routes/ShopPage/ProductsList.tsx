@@ -20,7 +20,7 @@ const ProductsList = () => {
 
   const [products, setProducts] = useState<Product[]>([]);
 
-  const debouncedFetchProducts = useDebounce(() => {
+  const debouncedFetchProducts = useDebounce(async () => {
     const currentParams = Object.fromEntries([...searchParams]);
     const filterQueries: string[] = [];
 
@@ -32,21 +32,17 @@ const ProductsList = () => {
       }
     }
 
-    const fetchProducts = async () => {
-      const data = await fetchData<Product[]>(
-        `${
-          import.meta.env.VITE_SUPABASE_API_URL
-        }/Products?select=id,name,price,collection,image_url&${filterQueries.join(
-          "&"
-        )}`
-      );
+    const data = await fetchData<Product[]>(
+      `${
+        import.meta.env.VITE_SUPABASE_API_URL
+      }/Products?select=id,name,price,collection,image_url&${filterQueries.join(
+        "&"
+      )}`
+    );
 
-      // &or=(brand.like.Adidas,brand.like.Nike)&or=(color.like.*white*,color.like.*green*)
+    // &or=(brand.like.Adidas,brand.like.Nike)&or=(color.like.*white*,color.like.*green*)
 
-      setProducts(data);
-    };
-
-    fetchProducts();
+    setProducts(data);
   }, 500);
 
   useEffect(() => {
