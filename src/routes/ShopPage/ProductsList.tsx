@@ -11,16 +11,20 @@ import { Product } from "../../types/dataTypes";
 import { fetchData } from "../../utils/dataUtils";
 import { filtersParsingConfig } from "../../configs/filtersParsingConfig";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useSearchParams } from "react-router-dom";
 
 const ProductsList = () => {
   const [searchParams] = useSearchParams();
-
   const [products, setProducts] = useState<Product[]>([]);
 
+  const abortController = useRef<AbortController>();
+
   const debouncedFetchProducts = useDebounce(async () => {
+    abortController.current?.abort();
+    abortController.current = new AbortController();
+
     const currentParams = Object.fromEntries([...searchParams]);
     const filterQueries: string[] = [];
 
@@ -37,7 +41,10 @@ const ProductsList = () => {
         import.meta.env.VITE_SUPABASE_API_URL
       }/Products?select=id,name,price,collection,image_url&${filterQueries.join(
         "&"
-      )}`
+      )}`,
+      {
+        signal: abortController.current.signal,
+      }
     );
 
     // &or=(brand.like.Adidas,brand.like.Nike)&or=(color.like.*white*,color.like.*green*)
@@ -47,6 +54,12 @@ const ProductsList = () => {
 
   useEffect(() => {
     debouncedFetchProducts();
+
+    return () => {
+      abortController.current?.abort();
+      debouncedFetchProducts.cancel();
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
