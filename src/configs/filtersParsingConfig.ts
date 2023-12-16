@@ -33,5 +33,15 @@ export const filtersParsingConfig: FiltersParsingConfig = {
   maxPrice: {
     buildQuery: (value: string) => `price=lte.${value}`,
   },
+  searchQuery: {
+    buildQuery: (value: string) => {
+      const query = value
+        .split(" ")
+        .map((val) => `name.ilike.*${val}*`)
+        .join(",");
+
+      return `and=(${query})`;
+    },
+  },
   //... more filters
 };

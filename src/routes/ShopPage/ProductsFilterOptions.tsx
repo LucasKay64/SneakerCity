@@ -5,10 +5,13 @@ import {
 } from "../../components/AccordionDropdown/AccordionDropdown";
 import FilterCheckboxGroup from "./FilterCheckboxGroup";
 import FilterPriceRange from "./FilterPriceRange";
+import FilterSearchBox from "./FilterSearchBox";
 
 const ProductsFilterOptions = () => {
   return (
-    <>
+    <div className="my-3">
+      <FilterSearchBox />
+
       <AccordionDropdown>
         <AccordionDropdownHeader>Brand</AccordionDropdownHeader>
         <AccordionDropdownContent>
@@ -47,7 +50,7 @@ const ProductsFilterOptions = () => {
           <FilterPriceRange />
         </AccordionDropdownContent>
       </AccordionDropdown>
-    </>
+    </div>
   );
 };
 
