@@ -6,6 +6,7 @@ import {
 import FilterCheckboxGroup from "./FilterCheckboxGroup";
 import FilterPriceRange from "./FilterPriceRange";
 import FilterSearchBox from "./FilterSearchBox";
+import FilterRadioGroup from "./FilterRadioGroup";
 
 const ProductsFilterOptions = () => {
   return (
@@ -48,6 +49,27 @@ const ProductsFilterOptions = () => {
         <AccordionDropdownHeader>Price</AccordionDropdownHeader>
         <AccordionDropdownContent>
           <FilterPriceRange />
+        </AccordionDropdownContent>
+      </AccordionDropdown>
+
+      <AccordionDropdown>
+        <AccordionDropdownHeader>Sort</AccordionDropdownHeader>
+        <AccordionDropdownContent>
+          <FilterRadioGroup
+            groupName="sort"
+            options={[
+              {
+                id: "price_asc",
+                value: "price.asc",
+                label: "Price: Low to High",
+              },
+              {
+                id: "price_desc",
+                value: "price.desc",
+                label: "Price: High to Low",
+              },
+            ]}
+          />
         </AccordionDropdownContent>
       </AccordionDropdown>
     </div>

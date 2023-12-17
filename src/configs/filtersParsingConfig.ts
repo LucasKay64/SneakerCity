@@ -43,5 +43,8 @@ export const filtersParsingConfig: FiltersParsingConfig = {
       return `and=(${query})`;
     },
   },
+  sort: {
+    buildQuery: (value: string) => `order=${value}`,
+  },
   //... more filters
 };
