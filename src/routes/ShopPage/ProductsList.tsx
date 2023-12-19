@@ -6,6 +6,7 @@ import {
   ProductCardPrice,
   ProductCardButton,
 } from "../../components/ProductCard/ProductCard";
+import { Pagination } from "../../components/Pagination/Pagination";
 
 import { Product } from "../../types/dataTypes";
 import { fetchData } from "../../utils/dataUtils";
@@ -44,6 +45,10 @@ const ProductsList = () => {
       )}`,
       {
         signal: abortController.current.signal,
+      },
+      {
+        Prefer: "count=exact",
+        Range: "0-7",
       }
     );
 
@@ -77,6 +82,8 @@ const ProductsList = () => {
           </ProductCard>
         ))}
       </div>
+
+      <Pagination page={5} totalPages={10} />
     </div>
   );
 };
