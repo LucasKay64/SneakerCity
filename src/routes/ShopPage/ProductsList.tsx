@@ -10,15 +10,19 @@ import { Pagination } from "../../components/Pagination/Pagination";
 
 import { Product } from "../../types/dataTypes";
 import { fetchData } from "../../utils/dataUtils";
-import { filtersParsingConfig } from "../../configs/filtersParsingConfig";
+import {
+  filtersParsingConfig,
+  ITEMS_PER_PAGE,
+} from "../../configs/filtersParsingConfig";
 
 import { useEffect, useState, useRef } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useSearchParams } from "react-router-dom";
 
 const ProductsList = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
+  const [totalPages, setTotalPages] = useState(0);
 
   const abortController = useRef<AbortController>();
 
@@ -37,7 +41,7 @@ const ProductsList = () => {
       }
     }
 
-    const data = await fetchData<Product[]>(
+    const { data, headers } = await fetchData<Product[]>(
       `${
         import.meta.env.VITE_SUPABASE_API_URL
       }/Products?select=id,name,price,collection,image_url&${filterQueries.join(
@@ -48,14 +52,15 @@ const ProductsList = () => {
       },
       {
         Prefer: "count=exact",
-        Range: "0-7",
       }
     );
 
-    // &or=(brand.like.Adidas,brand.like.Nike)&or=(color.like.*white*,color.like.*green*)
+    const totalNumOfItems = Number(headers.get("Content-Range")?.split("/")[1]);
+    const totalPages = Math.ceil(totalNumOfItems / ITEMS_PER_PAGE);
 
+    setTotalPages(totalPages);
     setProducts(data);
-  }, 500);
+  }, 300);
 
   useEffect(() => {
     debouncedFetchProducts();
@@ -67,6 +72,12 @@ const ProductsList = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
+
+  const handlePaginationChange = (page: number) => {
+    searchParams.set("page", page.toString());
+
+    setSearchParams(searchParams, { replace: true });
+  };
 
   return (
     <div>
@@ -83,7 +94,11 @@ const ProductsList = () => {
         ))}
       </div>
 
-      <Pagination page={5} totalPages={10} />
+      <Pagination
+        page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
+        totalPages={totalPages}
+        onPageChange={handlePaginationChange}
+      />
     </div>
   );
 };

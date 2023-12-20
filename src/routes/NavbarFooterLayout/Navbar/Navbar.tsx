@@ -61,7 +61,7 @@ const Navbar = () => {
 
         {/* inline menu for desktop view */}
         <div className="hidden lg:flex lg:gap-x-20">
-          <NavLink to="/">Shop</NavLink>
+          <NavLink to="/shop?page=1">Shop</NavLink>
           <NavLink to="/">About</NavLink>
           <NavLink to="/">Contact</NavLink>
         </div>

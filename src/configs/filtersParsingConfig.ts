@@ -6,6 +6,8 @@ interface FiltersParsingConfig {
   [key: string]: FilterConfig;
 }
 
+export const ITEMS_PER_PAGE = 8;
+
 export const filtersParsingConfig: FiltersParsingConfig = {
   brand: {
     buildQuery: (value: string) => {
@@ -45,6 +47,13 @@ export const filtersParsingConfig: FiltersParsingConfig = {
   },
   sort: {
     buildQuery: (value: string) => `order=${value}`,
+  },
+  page: {
+    buildQuery: (value: string) => {
+      const offset = (Number(value) - 1) * ITEMS_PER_PAGE;
+
+      return `limit=${ITEMS_PER_PAGE}&offset=${offset}`;
+    },
   },
   //... more filters
 };

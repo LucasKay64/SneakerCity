@@ -10,18 +10,32 @@ import { useState } from "react";
 interface PaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   totalPages?: number;
   page?: number;
+  onPageChange?: (page: number) => void;
 }
 
 const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
-  ({ className, totalPages = 10, page = 1, ...props }, ref) => {
+  (
+    {
+      className,
+      totalPages = 10,
+      page = 1,
+      onPageChange = undefined,
+      ...props
+    },
+    ref
+  ) => {
     const [currentPage, setPage] = useState(page);
 
-    const onPageChange = (page: number) => {
+    const handleChange = (page: number) => {
       if (page < 1 || page > totalPages) {
         return;
       }
 
       setPage(page);
+
+      if (onPageChange) {
+        onPageChange(page);
+      }
     };
 
     return (
@@ -34,7 +48,7 @@ const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         {...props}
       >
         <button
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={() => handleChange(currentPage - 1)}
           className={`w-10 h-10 rounded-full flex justify-center items-center hover:bg-gray-200 transition-[background-color] ${
             currentPage === 1 ? "opacity-20" : ""
           }`}
@@ -104,7 +118,7 @@ const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
           return (
             <button
               key={index}
-              onClick={() => onPageChange(pageNumber)}
+              onClick={() => handleChange(pageNumber)}
               className={cn(
                 "w-10 h-10 rounded-full",
                 `${
@@ -120,7 +134,7 @@ const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         })}
 
         <button
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() => handleChange(currentPage + 1)}
           className={`w-10 h-10 rounded-full flex justify-center items-center hover:bg-gray-200 transition-[background-color]
             ${currentPage === totalPages ? "opacity-20" : ""}
           `}
