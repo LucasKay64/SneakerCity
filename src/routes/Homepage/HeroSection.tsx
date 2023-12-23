@@ -10,9 +10,11 @@ import { Button } from "../../components/Button/Button";
 import Emblem from "../../components/Emblem/Emblem";
 
 import useTailwindBreakpoints from "../../hooks/useTailwindBreakpoints.js";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   const { windowWidth, xlBreakpoint, navbarLg } = useTailwindBreakpoints();
+  const navigate = useNavigate();
 
   return (
     <section
@@ -36,7 +38,14 @@ const HeroSection = () => {
             Official Nike, Adidas and Jordan retailer.
           </h2>
 
-          <Button className="mt-4 xl:mt-8">Explore Collections</Button>
+          <Button
+            className="mt-4 xl:mt-8"
+            onClick={() => {
+              navigate("/shop?page=1");
+            }}
+          >
+            Explore Collections
+          </Button>
         </div>
 
         <div className="relative">

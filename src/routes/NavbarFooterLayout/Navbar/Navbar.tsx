@@ -5,6 +5,7 @@ import ShoppingCartBlack from "../../../assets/icons/shopping-cart-black.svg";
 import ShoppingCartWhite from "../../../assets/icons/shopping-cart-white.svg";
 
 import { useEffect, useState } from "react";
+import { useLocation, Link } from "react-router-dom";
 
 import NavLink from "../../../components/NavLink/NavLink";
 import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownMenuMobile";
@@ -13,6 +14,8 @@ import Backdrop from "../../../components/Backdrop/Backdrop";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const location = useLocation();
 
   const toggleMenuOpen = () => {
     setIsMenuOpen((menuOpen) => !menuOpen);
@@ -50,13 +53,17 @@ const Navbar = () => {
           onClick={toggleMenuOpen}
         />
 
-        <img src={Logo} alt="logo" className="w-8 sm:w-10 md:w-12 lg:w-14" />
+        <Link to="/">
+          <img src={Logo} alt="logo" className="w-8 sm:w-10 md:w-12 lg:w-14" />
+        </Link>
 
         {/* dropdown menu visible on mobile view only */}
         <DropdownMenuMobile isMenuOpen={isMenuOpen}>
-          <NavLink to="/">Shop</NavLink>
-          <NavLink to="/">About</NavLink>
-          <NavLink to="/">Contact</NavLink>
+          <div className="flex flex-col items-center">
+            <NavLink to="/">Shop</NavLink>
+            <NavLink to="/">About</NavLink>
+            <NavLink to="/">Contact</NavLink>
+          </div>
         </DropdownMenuMobile>
 
         {/* inline menu for desktop view */}
@@ -67,7 +74,13 @@ const Navbar = () => {
         </div>
 
         <img
-          src={isMenuOpen || isScrolled ? ShoppingCartBlack : ShoppingCartWhite}
+          src={
+            location.pathname === "/"
+              ? isMenuOpen || isScrolled
+                ? ShoppingCartBlack
+                : ShoppingCartWhite
+              : ShoppingCartBlack
+          }
           alt="shopping cart"
           className="w-8 sm:w-10 md:w-12"
         />

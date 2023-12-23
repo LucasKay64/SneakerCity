@@ -4,37 +4,68 @@ import { useSearchParams } from "react-router-dom";
 
 import { useState } from "react";
 
+import { useDebounce } from "../../hooks/useDebounce";
+
 const FilterPriceRange = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [error, setError] = useState<string | null>(null);
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
+
+  // passing name as an argument through 2 levels but its kinda better for isolation and separation of concerns imo
+  const validatePriceRange = (name: string) => {
+    const numericMinPrice = Number(minPrice);
+    const numericMaxPrice = Number(maxPrice);
+
+    console.log("validatePriceRange", name);
+
+    // short circuiting
+    if (
+      name === "minPrice" &&
+      numericMinPrice !== 0 &&
+      numericMinPrice > numericMaxPrice &&
+      numericMaxPrice !== 0
+    ) {
+      setError("Min price cannot be greater than max price");
+      return false;
+    } else if (
+      name === "maxPrice" &&
+      numericMaxPrice !== 0 &&
+      numericMaxPrice < numericMinPrice &&
+      numericMinPrice !== 0
+    ) {
+      setError("Max price cannot be less than min price");
+      return false;
+    }
+
+    setError(null);
+    return true;
+  };
+
+  const updateSearchParams = useDebounce((name: string) => {
+    console.log("updatesearchParams", name);
+    if (validatePriceRange(name)) {
+      minPrice
+        ? searchParams.set("minPrice", minPrice)
+        : searchParams.delete("minPrice");
+      maxPrice
+        ? searchParams.set("maxPrice", maxPrice)
+        : searchParams.delete("maxPrice");
+
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, 300);
 
   const handlePriceRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const numericValue = Number(value);
-    const minPrice = Number(searchParams.get("minPrice"));
-    const maxPrice = Number(searchParams.get("maxPrice"));
-
-    setError(null);
-
     if (name === "minPrice") {
-      if (numericValue > maxPrice && maxPrice !== 0) {
-        setError("Min price cannot be greater than max price");
-        return;
-      }
+      setMinPrice(value);
     } else if (name === "maxPrice") {
-      if (numericValue < minPrice && minPrice !== 0) {
-        setError("Max price cannot be less than min price");
-        return;
-      }
+      setMaxPrice(value);
     }
 
-    if (value) {
-      searchParams.set(name, value);
-    } else {
-      searchParams.delete(name);
-    }
-
-    setSearchParams(searchParams, { replace: true });
+    console.log("handlePriceRangeChange", name);
+    updateSearchParams(name);
   };
 
   return (
@@ -49,6 +80,7 @@ const FilterPriceRange = () => {
           max="1000"
           name="minPrice"
           onChange={handlePriceRangeChange}
+          value={minPrice}
         />
         <span className="text-gray-500 mx-2">-</span>
         <Input
@@ -59,6 +91,7 @@ const FilterPriceRange = () => {
           max="1000"
           name="maxPrice"
           onChange={handlePriceRangeChange}
+          value={maxPrice}
         />
       </div>
       {error && (

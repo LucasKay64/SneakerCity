@@ -50,6 +50,7 @@ const FilterCheckboxGroup = ({
           name={groupName}
           value={value}
           onChange={handleFilterCheckboxChange}
+          checked={searchParams.get(groupName)?.includes(value) || false}
         >
           {label}
         </Checkbox>

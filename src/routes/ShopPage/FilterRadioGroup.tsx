@@ -33,6 +33,7 @@ const FilterRadioGroup = ({ groupName, options }: FilterRadioGroupProps) => {
           name={groupName}
           value={value}
           onChange={handleFilterRadioChange}
+          checked={searchParams.get(groupName) === value}
         >
           {label}
         </RadioButton>

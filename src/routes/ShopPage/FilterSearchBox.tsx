@@ -23,6 +23,7 @@ const FilterSearchBox = () => {
         type="text"
         placeholder="Search products"
         onChange={handleSearchInputChange}
+        value={searchParams.get("searchQuery") || ""}
       />
     </div>
   );
