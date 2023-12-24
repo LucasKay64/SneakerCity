@@ -1,6 +1,6 @@
 import { useRef, useEffect, useMemo } from "react";
 
-import { debounce } from "lodash";
+import { debounce, DebouncedFunc } from "lodash";
 
 // shouldnt use Function as type, because its way to general and doesnt provide sufficient type safety
 // shouldnt also use any as type, because the same applies but its less general than Function
@@ -13,7 +13,7 @@ type Callback = (...args: any[]) => any;
 export const useDebounce = <T extends Callback>(
   callback: T,
   delay: number
-): T => {
+): DebouncedFunc<T> => {
   const ref = useRef<T>(callback);
 
   useEffect(() => {
@@ -29,5 +29,5 @@ export const useDebounce = <T extends Callback>(
     return debounce(func, delay);
   }, [delay]);
 
-  return debouncedCallback as unknown as T;
+  return debouncedCallback;
 };
