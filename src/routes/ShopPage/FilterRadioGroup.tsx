@@ -17,10 +17,9 @@ const FilterRadioGroup = ({ groupName, options }: FilterRadioGroupProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleFilterRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
 
-    searchParams.set(name, value);
-
+    searchParams.set(groupName, value);
     setSearchParams(searchParams, { replace: true });
   };
 
@@ -33,7 +32,7 @@ const FilterRadioGroup = ({ groupName, options }: FilterRadioGroupProps) => {
           name={groupName}
           value={value}
           onChange={handleFilterRadioChange}
-          checked={searchParams.get(groupName) === value}
+          defaultChecked={searchParams.get(groupName) === value}
         >
           {label}
         </RadioButton>
