@@ -7,6 +7,7 @@ import {
   ProductCardButton,
 } from "../../components/ProductCard/ProductCard";
 import { Pagination } from "../../components/Pagination/Pagination";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 import { Product } from "../../types/dataTypes";
 import { fetchData } from "../../utils/dataUtils";
@@ -24,9 +25,13 @@ const ProductsList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [totalPages, setTotalPages] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const abortController = useRef<AbortController>();
 
   const debouncedFetchProducts = useDebounce(async () => {
+    setIsLoading(true);
+
     abortController.current?.abort();
     abortController.current = new AbortController();
 
@@ -60,6 +65,8 @@ const ProductsList = () => {
 
     setTotalPages(totalPages);
     setProducts(data);
+
+    setIsLoading(false);
   }, 300);
 
   useEffect(() => {
@@ -78,6 +85,14 @@ const ProductsList = () => {
 
     setSearchParams(searchParams, { replace: true });
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div>

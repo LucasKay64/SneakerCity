@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config.js";
 
@@ -9,14 +10,25 @@ const useTailwindBreakpoints = () => {
   //nested destructuring
   let {
     theme: {
-      // eslint-disable-next-line prefer-const
-      spacing: { "navbar-lg": navbarLg },
-      screens: { xl: xlBreakpoint, lg: lgBreakpoint },
+      spacing: {
+        "navbar-lg": navbarLg,
+        "navbar-sm": navbarSm,
+        "navbar-md": navbarMd,
+        navbar,
+      },
+      screens: {
+        xl: xlBreakpoint,
+        lg: lgBreakpoint,
+        md: mdBreakpoint,
+        sm: smBreakpoint,
+      },
     },
   } = resolveConfig(tailwindConfig);
 
   xlBreakpoint = parseInt(xlBreakpoint.replace("px", ""), 10);
   lgBreakpoint = parseInt(lgBreakpoint.replace("px", ""), 10);
+  mdBreakpoint = parseInt(mdBreakpoint.replace("px", ""), 10);
+  smBreakpoint = parseInt(smBreakpoint.replace("px", ""), 10);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,7 +42,12 @@ const useTailwindBreakpoints = () => {
 
   return {
     windowWidth,
+    navbar,
+    navbarSm,
+    navbarMd,
     navbarLg,
+    smBreakpoint,
+    mdBreakpoint,
     xlBreakpoint,
     lgBreakpoint,
   };
