@@ -10,6 +10,11 @@ export const fetchData = async <T>(
     },
     ...options,
   });
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
   const data = await response.json();
   return { data: data, headers: response.headers };
 };

@@ -26,11 +26,13 @@ const ProductsList = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const abortController = useRef<AbortController>();
 
   const debouncedFetchProducts = useDebounce(async () => {
     setIsLoading(true);
+    setError("");
 
     abortController.current?.abort();
     abortController.current = new AbortController();
@@ -46,27 +48,40 @@ const ProductsList = () => {
       }
     }
 
-    const { data, headers } = await fetchData<Product[]>(
-      `${
-        import.meta.env.VITE_SUPABASE_API_URL
-      }/Products?select=id,name,price,collection,image_url&${filterQueries.join(
-        "&"
-      )}`,
-      {
-        signal: abortController.current.signal,
-      },
-      {
-        Prefer: "count=exact",
+    try {
+      const { data, headers } = await fetchData<Product[]>(
+        `${
+          import.meta.env.VITE_SUPABASE_API_URL
+        }/Products?select=id,name,price,collection,image_url&${filterQueries.join(
+          "&"
+        )}`,
+        {
+          signal: abortController.current.signal,
+        },
+        {
+          Prefer: "count=exact",
+        }
+      );
+
+      const totalNumOfItems = Number(
+        headers.get("Content-Range")?.split("/")[1]
+      );
+      const totalPages = Math.ceil(totalNumOfItems / ITEMS_PER_PAGE);
+
+      setTotalPages(totalPages);
+      setProducts(data);
+    } catch (error) {
+      // If the error is due to aborting the fetch, don't show an error message
+      if (error instanceof Error && error.name === "AbortError") {
+        return;
       }
-    );
 
-    const totalNumOfItems = Number(headers.get("Content-Range")?.split("/")[1]);
-    const totalPages = Math.ceil(totalNumOfItems / ITEMS_PER_PAGE);
-
-    setTotalPages(totalPages);
-    setProducts(data);
-
-    setIsLoading(false);
+      setError(
+        "Something went wrong with loading the products. Please try again later."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   }, 300);
 
   useEffect(() => {
@@ -85,6 +100,14 @@ const ProductsList = () => {
 
     setSearchParams(searchParams, { replace: true });
   };
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p className="text-center text-red-500 font-bold">{error}</p>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
