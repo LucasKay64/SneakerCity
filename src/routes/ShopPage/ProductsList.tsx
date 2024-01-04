@@ -8,6 +8,8 @@ import {
 } from "../../components/ProductCard/ProductCard";
 import { Pagination } from "../../components/Pagination/Pagination";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import InfoMessage from "../../components/InfoMessage/InfoMessage";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 import { Product } from "../../types/dataTypes";
 import { fetchData } from "../../utils/dataUtils";
@@ -19,6 +21,8 @@ import {
 import { useEffect, useState, useRef } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useSearchParams } from "react-router-dom";
+
+import NotFoundIcon from "../../assets/icons/not-found-icon.svg";
 
 const ProductsList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -104,7 +108,7 @@ const ProductsList = () => {
   if (error) {
     return (
       <div className="flex justify-center items-center h-full">
-        <p className="text-center text-red-500 font-bold">{error}</p>
+        <ErrorMessage message={error} />
       </div>
     );
   }
@@ -113,6 +117,17 @@ const ProductsList = () => {
     return (
       <div className="flex justify-center items-center h-full">
         <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <InfoMessage
+          icon={NotFoundIcon}
+          message="No products found matching the selected filters."
+        />
       </div>
     );
   }
