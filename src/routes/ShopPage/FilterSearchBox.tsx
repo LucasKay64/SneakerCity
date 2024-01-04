@@ -13,6 +13,9 @@ const FilterSearchBox = () => {
       searchParams.delete("searchQuery");
     }
 
+    // setting the page to 1 when a filter is applied
+    searchParams.set("page", "1");
+
     setSearchParams(searchParams, { replace: true });
   };
 

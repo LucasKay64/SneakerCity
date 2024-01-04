@@ -17,8 +17,6 @@ const FilterPriceRange = () => {
     const numericMinPrice = Number(minPrice);
     const numericMaxPrice = Number(maxPrice);
 
-    console.log("validatePriceRange", name);
-
     // short circuiting
     if (
       name === "minPrice" &&
@@ -43,7 +41,6 @@ const FilterPriceRange = () => {
   };
 
   const updateSearchParams = useDebounce((name: string) => {
-    console.log("updatesearchParams", name);
     if (validatePriceRange(name)) {
       minPrice
         ? searchParams.set("minPrice", minPrice)
@@ -51,6 +48,9 @@ const FilterPriceRange = () => {
       maxPrice
         ? searchParams.set("maxPrice", maxPrice)
         : searchParams.delete("maxPrice");
+
+      // setting the page to 1 when a filter is applied
+      searchParams.set("page", "1");
 
       setSearchParams(searchParams, { replace: true });
     }
