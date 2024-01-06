@@ -13,6 +13,9 @@ export default {
         "navbar-md": "75.2px",
         "navbar-lg": "84px",
       },
+      backgroundImage: {
+        "blob-scatter": "url('/src/assets/images/blob-scatter.svg')",
+      },
     },
   },
   plugins: [],

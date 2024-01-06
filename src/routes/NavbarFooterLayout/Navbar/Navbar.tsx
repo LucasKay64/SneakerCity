@@ -5,17 +5,19 @@ import ShoppingCartBlack from "../../../assets/icons/shopping-cart-black.svg";
 import ShoppingCartWhite from "../../../assets/icons/shopping-cart-white.svg";
 
 import { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
 import NavLink from "../../../components/NavLink/NavLink";
 import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownMenuMobile";
 import Backdrop from "../../../components/Backdrop/Backdrop";
+import { Button } from "../../../components/Button/Button";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleMenuOpen = () => {
     setIsMenuOpen((menuOpen) => !menuOpen);
@@ -63,6 +65,8 @@ const Navbar = () => {
             <NavLink to="/">Shop</NavLink>
             <NavLink to="/">About</NavLink>
             <NavLink to="/">Contact</NavLink>
+            <hr className="w-full my-3" />
+            <Button onClick={() => navigate("/sign-in")}>Sign in</Button>
           </div>
         </DropdownMenuMobile>
 
@@ -73,17 +77,30 @@ const Navbar = () => {
           <NavLink to="/">Contact</NavLink>
         </div>
 
-        <img
-          src={
-            location.pathname === "/"
-              ? isMenuOpen || isScrolled
-                ? ShoppingCartBlack
-                : ShoppingCartWhite
-              : ShoppingCartBlack
-          }
-          alt="shopping cart"
-          className="w-8 sm:w-10 md:w-12"
-        />
+        <div
+          className="
+            flex items-center justify-center
+            lg:gap-x-5"
+        >
+          <Button
+            className="hidden lg:block"
+            onClick={() => navigate("/sign-in")}
+          >
+            Sign in
+          </Button>
+
+          <img
+            src={
+              location.pathname === "/"
+                ? isMenuOpen || isScrolled
+                  ? ShoppingCartBlack
+                  : ShoppingCartWhite
+                : ShoppingCartBlack
+            }
+            alt="shopping cart"
+            className="w-8 sm:w-10 md:w-12"
+          />
+        </div>
       </nav>
 
       <Backdrop isVisible={isMenuOpen} />
