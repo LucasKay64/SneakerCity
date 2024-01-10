@@ -1,12 +1,16 @@
 import useTailwindBreakpoints from "../../hooks/useTailwindBreakpoints";
 
 import { Link } from "react-router-dom";
+import {
+  signInSchema,
+  signInFormDataType,
+} from "../../schemas/validationSchemas";
 
 import { BoxContainer } from "../../components/BoxContainer/BoxContainer";
-import { Input } from "../../components/Input/Input";
-import { Label } from "../../components/Label/Label";
 import { Button } from "../../components/Button/Button";
 import { Checkbox } from "../../components/Checkbox/Checkbox";
+import { Form } from "../../components/Form/Form";
+import FormTextField from "../../components/FormTextField/FormTextField";
 
 import Logo from "../../assets/images/logo.svg";
 
@@ -21,6 +25,8 @@ const SignInPage = () => {
     navbarSm,
     smBreakpoint,
   } = useTailwindBreakpoints();
+
+  const onSubmit = (data: signInFormDataType) => console.log(data);
 
   return (
     <section
@@ -51,49 +57,52 @@ const SignInPage = () => {
           />
         </div>
 
-        <form className="flex flex-col gap-4">
-          <div className="">
-            <Label htmlFor="email">Your email</Label>
-            <Input
-              inputSize="lg"
-              type="email"
-              id="email"
-              placeholder="name@company.com"
-              className="mt-1"
-            />
-          </div>
+        <Form<signInFormDataType, typeof signInSchema>
+          onSubmit={onSubmit}
+          schema={signInSchema}
+          className="flex flex-col gap-4"
+        >
+          {({ register, formState: { errors } }) => (
+            <>
+              <FormTextField
+                label="Your email"
+                name="email"
+                id="email"
+                placeholder="name@company.com"
+                registration={register("email")}
+                error={errors.email}
+              />
 
-          <div className="">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              inputSize="lg"
-              type="password"
-              id="password"
-              placeholder="••••••••"
-              className="mt-1"
-            />
-          </div>
+              <FormTextField
+                label="Password"
+                name="password"
+                id="password"
+                placeholder="••••••••"
+                type="password"
+                registration={register("password")}
+                error={errors.password}
+              />
 
-          <div className="flex justify-between">
-            <Checkbox id="remember-me">Remember me</Checkbox>
-            <a href="#" className="text-sm font-medium hover:underline">
-              Forgot password?
-            </a>
-          </div>
+              <div className="flex justify-between">
+                <Checkbox id="remember-me">Remember me</Checkbox>
+                <a href="#" className="text-sm font-medium hover:underline">
+                  Forgot password?
+                </a>
+              </div>
 
-          <Button className="">Sign in</Button>
+              <Button className="" type="submit">
+                Sign in
+              </Button>
 
-          <p className="text-sm font-light text-gray-500">
-            Don't have an account yet?{" "}
-            <Link
-              className="font-medium hover:underline"
-              to="/sign-up"
-              reloadDocument
-            >
-              Sign up
-            </Link>
-          </p>
-        </form>
+              <p className="text-sm font-light text-gray-500">
+                Don't have an account yet?{" "}
+                <Link className="font-medium hover:underline" to="/sign-up">
+                  Sign up
+                </Link>
+              </p>
+            </>
+          )}
+        </Form>
       </BoxContainer>
     </section>
   );
