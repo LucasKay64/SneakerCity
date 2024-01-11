@@ -84,7 +84,7 @@ const Navbar = () => {
         >
           <Button
             className="hidden lg:block"
-            onClick={() => navigate("/sign-in")}
+            onClick={() => navigate("/auth/sign-in")}
           >
             Sign in
           </Button>
