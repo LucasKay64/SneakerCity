@@ -5,6 +5,7 @@ import HomePage from "./routes/Homepage/Homepage";
 import NavbarFooterLayout from "./routes/NavbarFooterLayout/NavbarFooterLayout";
 import ShopPage from "./routes/ShopPage/ShopPage";
 import SignInPage from "./routes/SignInPage/SignInPage";
+import SignUpPage from "./routes/SignUpPage/SignUpPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="shop" element={<ShopPage />} />
         <Route path="sign-in" element={<SignInPage />} />
+        <Route path="sign-up" element={<SignUpPage />} />
       </Route>
     </Routes>
   );
