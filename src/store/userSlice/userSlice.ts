@@ -27,34 +27,35 @@ const initialState: UserState = {
   error: null,
 };
 
-export const signUpWithPasswordAsync = createAsyncThunk(
-  "user/signUpWithPasswordAsync",
-  async (credentials: SignUpWithPasswordCredentials, { rejectWithValue }) => {
-    try {
-      const { data } = await fetchData<AuthResponse>(
-        `${import.meta.env.VITE_SUPABASE_AUTH_URL}/signup`,
-        {
-          method: "POST",
-          body: JSON.stringify(credentials),
-        },
-        {
-          "Content-Type": "application/json",
-        }
-      );
-
-      // add JWT to local storage
-      localStorage.setItem("token", data.access_token);
-
-      return data.user;
-    } catch (error) {
-      if (error instanceof ApiError && error.statusCode === 400) {
-        return rejectWithValue(error.message);
-      } else {
-        return rejectWithValue("Something went wrong, please try again later");
+export const signUpWithPasswordAsync = createAsyncThunk<
+  User, // Expected return type for fulfilled promise
+  SignUpWithPasswordCredentials, // Argument type
+  { rejectValue: string } // Type of the rejectWithValue return value
+>("user/signUpWithPasswordAsync", async (credentials, { rejectWithValue }) => {
+  try {
+    const { data } = await fetchData<AuthResponse>(
+      `${import.meta.env.VITE_SUPABASE_AUTH_URL}/signup`,
+      {
+        method: "POST",
+        body: JSON.stringify(credentials),
+      },
+      {
+        "Content-Type": "application/json",
       }
+    );
+
+    // add JWT to local storage
+    localStorage.setItem("token", data.access_token);
+
+    return data.user;
+  } catch (error) {
+    if (error instanceof ApiError && error.statusCode === 400) {
+      return rejectWithValue(error.message);
+    } else {
+      return rejectWithValue("Something went wrong, please try again later");
     }
   }
-);
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -68,10 +69,13 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.user = action.payload;
     });
-    builder.addCase(signUpWithPasswordAsync.rejected, (state, action) => {
-      state.isLoading = false;
-      console.log(action.payload);
-    });
+    builder.addCase(
+      signUpWithPasswordAsync.rejected,
+      (state, action: PayloadAction<string | undefined>) => {
+        state.isLoading = false;
+        state.error = action.payload ?? "Something went wrong";
+      }
+    );
   },
 });
 
