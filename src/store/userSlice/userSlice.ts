@@ -11,7 +11,7 @@ import type {
   SignInWithPasswordCredentials,
 } from "@supabase/supabase-js";
 import { AuthResponse } from "../../types/dataTypes";
-import { ApiError } from "../../errors/ApiError";
+import { AuthApiError } from "../../errors/errors";
 
 import { fetchData } from "../../utils/dataUtils";
 
@@ -49,7 +49,37 @@ export const signUpWithPasswordAsync = createAsyncThunk<
 
     return data.user;
   } catch (error) {
-    if (error instanceof ApiError && error.statusCode === 400) {
+    if (error instanceof AuthApiError) {
+      return rejectWithValue(error.message);
+    } else {
+      return rejectWithValue("Something went wrong, please try again later");
+    }
+  }
+});
+
+export const signInWithPasswordAsync = createAsyncThunk<
+  User, // Expected return type for fulfilled promise
+  SignInWithPasswordCredentials, // Argument type
+  { rejectValue: string } // Type of the rejectWithValue return value
+>("user/signInWithPasswordAsync", async (credentials, { rejectWithValue }) => {
+  try {
+    const { data } = await fetchData<AuthResponse>(
+      `${import.meta.env.VITE_SUPABASE_AUTH_URL}/token?grant_type=password`,
+      {
+        method: "POST",
+        body: JSON.stringify(credentials),
+      },
+      {
+        "Content-Type": "application/json",
+      }
+    );
+
+    // add JWT to local storage
+    localStorage.setItem("token", data.access_token);
+
+    return data.user;
+  } catch (error) {
+    if (error instanceof AuthApiError) {
       return rejectWithValue(error.message);
     } else {
       return rejectWithValue("Something went wrong, please try again later");
@@ -62,6 +92,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // sign up with email and password
     builder.addCase(signUpWithPasswordAsync.pending, (state) => {
       state.isLoading = true;
     });
@@ -71,6 +102,21 @@ const userSlice = createSlice({
     });
     builder.addCase(
       signUpWithPasswordAsync.rejected,
+      (state, action: PayloadAction<string | undefined>) => {
+        state.isLoading = false;
+        state.error = action.payload ?? "Something went wrong";
+      }
+    );
+    // sign in with email and password
+    builder.addCase(signInWithPasswordAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(signInWithPasswordAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload;
+    });
+    builder.addCase(
+      signInWithPasswordAsync.rejected,
       (state, action: PayloadAction<string | undefined>) => {
         state.isLoading = false;
         state.error = action.payload ?? "Something went wrong";

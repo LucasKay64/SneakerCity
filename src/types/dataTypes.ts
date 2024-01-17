@@ -23,8 +23,3 @@ export interface AuthResponse {
   refresh_token: string;
   user: User;
 }
-
-export interface ApiErrorType {
-  code: number;
-  msg: string;
-}

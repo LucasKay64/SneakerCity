@@ -3,6 +3,9 @@ import {
   signInSchema,
   signInFormDataType,
 } from "../../../schemas/validationSchemas";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
+import { selectUser } from "../../../store/userSlice/userSlice";
+import { signInWithPasswordAsync } from "../../../store/userSlice/userSlice";
 
 import { BoxContainer } from "../../../components/BoxContainer/BoxContainer";
 import { Button } from "../../../components/Button/Button";
@@ -13,7 +16,14 @@ import FormTextField from "../../../components/FormTextField/FormTextField";
 import Logo from "../../../assets/images/logo.svg";
 
 const SignInPage = () => {
-  const onSubmit = (data: signInFormDataType) => console.log(data);
+  const dispatch = useAppDispatch();
+  const { isLoading, error } = useAppSelector(selectUser);
+
+  const onSubmit = async (data: signInFormDataType) => {
+    const { email, password } = data;
+
+    dispatch(signInWithPasswordAsync({ email, password }));
+  };
 
   return (
     <BoxContainer className="px-3 sm:px-5 lg:px-10 py-5 w-full max-w-lg">
@@ -42,6 +52,7 @@ const SignInPage = () => {
               placeholder="name@company.com"
               registration={register("email")}
               error={errors.email}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -52,6 +63,7 @@ const SignInPage = () => {
               type="password"
               registration={register("password")}
               error={errors.password}
+              disabled={isLoading}
             />
 
             <div className="flex justify-between">
@@ -61,9 +73,15 @@ const SignInPage = () => {
               </a>
             </div>
 
-            <Button className="" type="submit">
-              Sign in
+            <Button
+              variant={isLoading ? "disabled" : "default"}
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? "Signing in..." : "Sign in"}
             </Button>
+
+            {error && <p className="text-red-500 text-center">{error}</p>}
 
             <p className="text-sm font-light text-gray-500">
               Don't have an account yet?{" "}

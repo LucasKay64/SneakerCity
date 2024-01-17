@@ -18,7 +18,7 @@ import Logo from "../../../assets/images/logo.svg";
 
 const SignUpPage = () => {
   const dispatch = useAppDispatch();
-  const { user, isLoading, error } = useAppSelector(selectUser);
+  const { isLoading, error } = useAppSelector(selectUser);
 
   const onSubmit = async (data: signUpFormDataType) => {
     const { email, password } = data;

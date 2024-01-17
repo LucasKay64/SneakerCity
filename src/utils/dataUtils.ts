@@ -1,5 +1,4 @@
-import { ApiError } from "../errors/ApiError";
-import { ApiErrorType } from "../types/dataTypes";
+import { AuthApiError } from "../errors/errors";
 
 export const fetchData = async <T>(
   url: string,
@@ -15,8 +14,20 @@ export const fetchData = async <T>(
   });
 
   if (!response.ok) {
-    const errorData: ApiErrorType = await response.json();
-    throw new ApiError(errorData.code, errorData.msg);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const errorData: any = await response.json();
+
+    switch (response.status) {
+      case 400:
+        if (errorData.msg && errorData.msg === "User already registered") {
+          throw new AuthApiError(errorData.msg);
+        } else if (errorData.error && errorData.error === "invalid_grant") {
+          throw new AuthApiError(errorData.error_description);
+        }
+        break;
+      default:
+        throw new Error(errorData.msg);
+    }
   }
 
   const data = await response.json();
