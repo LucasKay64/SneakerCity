@@ -6,6 +6,8 @@ import ShoppingCartWhite from "../../../assets/icons/shopping-cart-white.svg";
 
 import { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../hooks/reduxHooks";
+import { selectUser } from "../../../store/userSlice/userSlice";
 
 import NavLink from "../../../components/NavLink/NavLink";
 import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownMenuMobile";
@@ -18,6 +20,8 @@ const Navbar = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { user } = useAppSelector(selectUser);
 
   const toggleMenuOpen = () => {
     setIsMenuOpen((menuOpen) => !menuOpen);
@@ -66,7 +70,7 @@ const Navbar = () => {
             <NavLink to="/">About</NavLink>
             <NavLink to="/">Contact</NavLink>
             <hr className="w-full my-3" />
-            <Button onClick={() => navigate("/sign-in")}>Sign in</Button>
+            <Button onClick={() => navigate("/auth/sign-in")}>Sign in</Button>
           </div>
         </DropdownMenuMobile>
 
@@ -82,12 +86,16 @@ const Navbar = () => {
             flex items-center justify-center
             lg:gap-x-5"
         >
-          <Button
-            className="hidden lg:block"
-            onClick={() => navigate("/auth/sign-in")}
-          >
-            Sign in
-          </Button>
+          {user ? (
+            <p>logged in</p>
+          ) : (
+            <Button
+              className="hidden lg:block"
+              onClick={() => navigate("/auth/sign-in")}
+            >
+              Sign in
+            </Button>
+          )}
 
           <img
             src={

@@ -18,7 +18,7 @@ import Logo from "../../../assets/images/logo.svg";
 
 const SignUpPage = () => {
   const dispatch = useAppDispatch();
-  const { user, isLoading } = useAppSelector(selectUser);
+  const { user, isLoading, error } = useAppSelector(selectUser);
 
   const onSubmit = async (data: signUpFormDataType) => {
     const { email, password } = data;
@@ -85,6 +85,8 @@ const SignUpPage = () => {
             >
               {isLoading ? "Creating an acccount..." : "Create an account"}
             </Button>
+
+            {error && <p className="text-red-500 text-center">{error}</p>}
 
             <p className="text-sm font-light text-gray-500">
               Already have an account?{" "}
