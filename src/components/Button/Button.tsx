@@ -7,6 +7,7 @@ const buttonVariants = cva("rounded-xl", {
   variants: {
     variant: {
       default: "bg-blue-primary hover:bg-blue-secondary text-white",
+      disabled: "bg-gray-300 text-gray-500 cursor-not-allowed",
       none: "",
     },
     size: {
@@ -38,4 +39,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 Button.displayName = "Button";
 
-export { Button, buttonVariants };
+export { Button };

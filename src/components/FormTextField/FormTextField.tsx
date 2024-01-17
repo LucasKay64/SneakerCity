@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+// import { cva, type VariantProps } from "class-variance-authority";
 
 import { UseFormRegisterReturn, FieldError } from "react-hook-form";
 
@@ -26,6 +26,7 @@ interface FormTextFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   placeholder?: string;
   registration: UseFormRegisterReturn;
   error?: FieldError | undefined;
+  disabled?: boolean;
 }
 
 const FormTextField = ({
@@ -37,6 +38,7 @@ const FormTextField = ({
   placeholder,
   registration,
   error,
+  disabled,
   ...props
 }: FormTextFieldProps) => {
   return (
@@ -53,6 +55,7 @@ const FormTextField = ({
         )}
         {...registration}
         {...props}
+        disabled={disabled}
       />
       {error?.message && <p className="text-red-500">{error.message}</p>}
     </div>

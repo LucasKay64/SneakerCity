@@ -3,6 +3,11 @@ import {
   signUpSchema,
   signUpFormDataType,
 } from "../../../schemas/validationSchemas";
+import {
+  signUpWithPasswordAsync,
+  selectUser,
+} from "../../../store/userSlice/userSlice";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 
 import { BoxContainer } from "../../../components/BoxContainer/BoxContainer";
 import { Button } from "../../../components/Button/Button";
@@ -12,7 +17,14 @@ import FormTextField from "../../../components/FormTextField/FormTextField";
 import Logo from "../../../assets/images/logo.svg";
 
 const SignUpPage = () => {
-  const onSubmit = (data: signUpFormDataType) => console.log(data);
+  const dispatch = useAppDispatch();
+  const { user, isLoading } = useAppSelector(selectUser);
+
+  const onSubmit = async (data: signUpFormDataType) => {
+    const { email, password } = data;
+
+    dispatch(signUpWithPasswordAsync({ email, password }));
+  };
 
   return (
     <BoxContainer className="px-3 sm:px-5 lg:px-10 py-5 w-full max-w-lg">
@@ -41,6 +53,7 @@ const SignUpPage = () => {
               placeholder="name@company.com"
               registration={register("email")}
               error={errors.email}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -51,6 +64,7 @@ const SignUpPage = () => {
               type="password"
               registration={register("password")}
               error={errors.password}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -61,9 +75,16 @@ const SignUpPage = () => {
               type="password"
               registration={register("confirmPassword")}
               error={errors.confirmPassword}
+              disabled={isLoading}
             />
 
-            <Button type="submit">Create an account</Button>
+            <Button
+              variant={isLoading ? "disabled" : "default"}
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? "Creating an acccount..." : "Create an account"}
+            </Button>
 
             <p className="text-sm font-light text-gray-500">
               Already have an account?{" "}
