@@ -22,9 +22,10 @@ const DropdownMenuMobile = ({
         `}
     >
       <div
-        // flex flex-col items-center
         className="
           overflow-hidden
+          overflow-y-auto
+          max-h-[calc(100vh-10rem)]
         "
       >
         {children}

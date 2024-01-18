@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../hooks/reduxHooks";
 import { selectUser, signOutAsync } from "../../../store/userSlice/userSlice";
+import { toggleCartOpen } from "../../../store/cartSlice/cartSlice";
 
 import NavLink from "../../../components/NavLink/NavLink";
 import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownMenuMobile";
 import Backdrop from "../../../components/Backdrop/Backdrop";
 import { Button } from "../../../components/Button/Button";
+import ShoppingCart from "../../../components/ShoppingCart/ShoppingCart";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,6 +32,10 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     dispatch(signOutAsync());
+  };
+
+  const handleToggleCartOpen = () => {
+    dispatch(toggleCartOpen());
   };
 
   useEffect(() => {
@@ -121,9 +127,12 @@ const Navbar = () => {
             }
             alt="shopping cart"
             className="w-8 sm:w-10 md:w-12"
+            onClick={handleToggleCartOpen}
           />
         </div>
       </nav>
+
+      <ShoppingCart />
 
       <Backdrop isVisible={isMenuOpen} />
     </>

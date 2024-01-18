@@ -1,8 +1,9 @@
 interface BackdropProps {
   isVisible: boolean;
+  onBackdropClick?: () => void;
 }
 
-const Backdrop = ({ isVisible }: BackdropProps) => {
+const Backdrop = ({ isVisible, onBackdropClick }: BackdropProps) => {
   return (
     <div
       className={`
@@ -13,6 +14,7 @@ const Backdrop = ({ isVisible }: BackdropProps) => {
         
         ${isVisible ? "z-30 bg-black bg-opacity-30 " : "-z-50 bg-opacity-0"}
     `}
+      onClick={onBackdropClick}
     ></div>
   );
 };

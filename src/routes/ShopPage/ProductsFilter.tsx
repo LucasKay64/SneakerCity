@@ -6,10 +6,15 @@ import ProductsFilterOptions from "./ProductsFilterOptions";
 import FilterIconWhite from "../../assets/icons/filter-icon-white.svg";
 import FilterIconBlack from "../../assets/icons/filter-icon-black.svg";
 
+import { useAppSelector } from "../../hooks/reduxHooks";
+import { selectIsCartOpen } from "../../store/cartSlice/cartSlice";
+
 import { useState } from "react";
 
 const ProductsFilter = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const isCartOpen = useAppSelector(selectIsCartOpen);
 
   const toggleFilterOpen = () => {
     setIsFilterOpen((filterOpen) => !filterOpen);
@@ -31,12 +36,14 @@ const ProductsFilter = () => {
         <ProductsFilterOptions />
       </div>
 
-      <FloatingActionButton
-        className="fixed bottom-5 right-5 z-40 lg:hidden"
-        onClick={toggleFilterOpen}
-      >
-        <img src={FilterIconWhite} alt="filter icon" />
-      </FloatingActionButton>
+      {!isCartOpen && (
+        <FloatingActionButton
+          className="fixed bottom-5 right-5 z-40 lg:hidden"
+          onClick={toggleFilterOpen}
+        >
+          <img src={FilterIconWhite} alt="filter icon" />
+        </FloatingActionButton>
+      )}
 
       <Backdrop isVisible={isFilterOpen} />
     </div>
