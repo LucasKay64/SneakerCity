@@ -87,6 +87,26 @@ export const signInWithPasswordAsync = createAsyncThunk<
   }
 });
 
+export const verifyTokenAndFetchUserAsync = createAsyncThunk<
+  User,
+  string,
+  { rejectValue: string }
+>("user/verifyTokenAndFetchUserAsync", async (token, { rejectWithValue }) => {
+  try {
+    const { data } = await fetchData<User>(
+      `${import.meta.env.VITE_SUPABASE_AUTH_URL}/user`,
+      {},
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
+    return data;
+  } catch (error) {
+    return rejectWithValue("Something went wrong, please try again later");
+  }
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -122,6 +142,21 @@ const userSlice = createSlice({
         state.error = action.payload ?? "Something went wrong";
       }
     );
+    // verify token and fetch user
+    builder.addCase(verifyTokenAndFetchUserAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(verifyTokenAndFetchUserAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload;
+    });
+    builder.addCase(verifyTokenAndFetchUserAsync.rejected, (state) => {
+      state.isLoading = false;
+      // remove JWT from local storage
+      localStorage.removeItem("token");
+      // reset user state
+      state.user = null;
+    });
   },
 });
 

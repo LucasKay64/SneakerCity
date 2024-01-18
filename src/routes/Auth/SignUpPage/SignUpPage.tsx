@@ -8,6 +8,7 @@ import {
   selectUser,
 } from "../../../store/userSlice/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
+import { useNavigate } from "react-router-dom";
 
 import { BoxContainer } from "../../../components/BoxContainer/BoxContainer";
 import { Button } from "../../../components/Button/Button";
@@ -18,12 +19,24 @@ import Logo from "../../../assets/images/logo.svg";
 
 const SignUpPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { isLoading, error } = useAppSelector(selectUser);
 
   const onSubmit = async (data: signUpFormDataType) => {
     const { email, password } = data;
 
-    dispatch(signUpWithPasswordAsync({ email, password }));
+    // this is a kind of a workaround using the unwrap() method for thunks
+    // to check if the request was successful or not
+    try {
+      await dispatch(signUpWithPasswordAsync({ email, password })).unwrap();
+
+      navigate("/");
+    } catch (error) {
+      // this doesn't have to handle anything because the error is already
+      // handled by the userSlice
+      null;
+    }
   };
 
   return (
