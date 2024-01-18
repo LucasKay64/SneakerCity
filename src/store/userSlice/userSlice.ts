@@ -87,6 +87,36 @@ export const signInWithPasswordAsync = createAsyncThunk<
   }
 });
 
+export const signOutAsync = createAsyncThunk(
+  "user/signOutAsync",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      await fetchData(
+        `${import.meta.env.VITE_SUPABASE_AUTH_URL}/logout`,
+        {
+          method: "POST",
+          body: JSON.stringify({}),
+        },
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      );
+    } catch (error) {
+      return rejectWithValue("Something went wrong, please try again later");
+    } finally {
+      // remove JWT from local storage
+      localStorage.removeItem("token");
+    }
+  }
+);
+
 export const verifyTokenAndFetchUserAsync = createAsyncThunk<
   User,
   string,
@@ -103,6 +133,9 @@ export const verifyTokenAndFetchUserAsync = createAsyncThunk<
 
     return data;
   } catch (error) {
+    // remove JWT from local storage
+    localStorage.removeItem("token");
+
     return rejectWithValue("Something went wrong, please try again later");
   }
 });
@@ -127,6 +160,7 @@ const userSlice = createSlice({
         state.error = action.payload ?? "Something went wrong";
       }
     );
+
     // sign in with email and password
     builder.addCase(signInWithPasswordAsync.pending, (state) => {
       state.isLoading = true;
@@ -142,6 +176,7 @@ const userSlice = createSlice({
         state.error = action.payload ?? "Something went wrong";
       }
     );
+
     // verify token and fetch user
     builder.addCase(verifyTokenAndFetchUserAsync.pending, (state) => {
       state.isLoading = true;
@@ -152,9 +187,19 @@ const userSlice = createSlice({
     });
     builder.addCase(verifyTokenAndFetchUserAsync.rejected, (state) => {
       state.isLoading = false;
-      // remove JWT from local storage
-      localStorage.removeItem("token");
-      // reset user state
+      state.user = null;
+    });
+
+    // sign out
+    builder.addCase(signOutAsync.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(signOutAsync.fulfilled, (state) => {
+      state.isLoading = false;
+      state.user = null;
+    });
+    builder.addCase(signOutAsync.rejected, (state) => {
+      state.isLoading = false;
       state.user = null;
     });
   },

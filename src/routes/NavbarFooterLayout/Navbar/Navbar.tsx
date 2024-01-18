@@ -6,8 +6,8 @@ import ShoppingCartWhite from "../../../assets/icons/shopping-cart-white.svg";
 
 import { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../hooks/reduxHooks";
-import { selectUser } from "../../../store/userSlice/userSlice";
+import { useAppSelector, useAppDispatch } from "../../../hooks/reduxHooks";
+import { selectUser, signOutAsync } from "../../../store/userSlice/userSlice";
 
 import NavLink from "../../../components/NavLink/NavLink";
 import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownMenuMobile";
@@ -20,11 +20,16 @@ const Navbar = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const { user } = useAppSelector(selectUser);
+  const { user, isLoading } = useAppSelector(selectUser);
 
   const toggleMenuOpen = () => {
     setIsMenuOpen((menuOpen) => !menuOpen);
+  };
+
+  const handleSignOut = () => {
+    dispatch(signOutAsync());
   };
 
   useEffect(() => {
@@ -87,11 +92,20 @@ const Navbar = () => {
             lg:gap-x-5"
         >
           {user ? (
-            <p>logged in</p>
+            <Button
+              className="hidden lg:block"
+              onClick={handleSignOut}
+              disabled={isLoading}
+              variant={isLoading ? "disabled" : "default"}
+            >
+              Sign out
+            </Button>
           ) : (
             <Button
               className="hidden lg:block"
               onClick={() => navigate("/auth/sign-in")}
+              disabled={isLoading}
+              variant={isLoading ? "disabled" : "default"}
             >
               Sign in
             </Button>
