@@ -24,6 +24,9 @@ import { useSearchParams } from "react-router-dom";
 
 import NotFoundIcon from "../../assets/icons/not-found-icon.svg";
 
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { addItemToCart } from "../../store/cartSlice/cartSlice";
+
 const ProductsList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
@@ -31,6 +34,8 @@ const ProductsList = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const dispatch = useAppDispatch();
 
   const abortController = useRef<AbortController>();
 
@@ -88,6 +93,15 @@ const ProductsList = () => {
     }
   }, 300);
 
+  const handleAddToCart = (product: Product) => {
+    dispatch(
+      addItemToCart({
+        ...product,
+        quantity: 1,
+      })
+    );
+  };
+
   useEffect(() => {
     debouncedFetchProducts();
 
@@ -136,15 +150,21 @@ const ProductsList = () => {
     <div>
       <p className="text-center font-bold text-2xl">Our collection</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-5 py-4">
-        {products.map(({ id, image_url, name, collection, price }) => (
-          <ProductCard key={id}>
-            <ProductCardImage src={image_url} alt={name} />
-            <ProductCardTitle>{name}</ProductCardTitle>
-            <ProductCardDescription>{collection}</ProductCardDescription>
-            <ProductCardPrice>${price}</ProductCardPrice>
-            <ProductCardButton>Add to cart</ProductCardButton>
-          </ProductCard>
-        ))}
+        {products.map((product) => {
+          const { id, image_url, name, collection, price } = product;
+
+          return (
+            <ProductCard key={id}>
+              <ProductCardImage src={image_url} alt={name} />
+              <ProductCardTitle>{name}</ProductCardTitle>
+              <ProductCardDescription>{collection}</ProductCardDescription>
+              <ProductCardPrice>${price}</ProductCardPrice>
+              <ProductCardButton onClick={() => handleAddToCart(product)}>
+                Add to cart
+              </ProductCardButton>
+            </ProductCard>
+          );
+        })}
       </div>
 
       <Pagination

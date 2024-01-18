@@ -14,6 +14,10 @@ export interface ProductDetails extends Product {
   description: string;
 }
 
+export interface CartItem extends Product {
+  quantity: number;
+}
+
 // Type to model the response upon signup and signin with email and password
 export interface AuthResponse {
   access_token: string;
