@@ -21,15 +21,18 @@ const cartSlice = createSlice({
     },
 
     addItemToCart(state, action: PayloadAction<CartItem>) {
-      const item = action.payload;
+      const payloadItem = action.payload;
       const existingItem = state.cartItems.find(
-        (cartItem) => cartItem.id === item.id
+        (cartItem) => cartItem.id === payloadItem.id
       );
 
       if (existingItem) {
-        existingItem.quantity++;
+        existingItem.quantity += payloadItem.quantity;
       } else {
-        state.cartItems.push({ ...item, quantity: 1 });
+        state.cartItems.push({
+          ...payloadItem,
+          quantity: payloadItem.quantity,
+        });
       }
     },
 

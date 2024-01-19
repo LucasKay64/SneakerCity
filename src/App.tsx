@@ -9,7 +9,7 @@ import NavbarFooterLayout from "./routes/NavbarFooterLayout/NavbarFooterLayout";
 import ShopPage from "./routes/ShopPage/ShopPage";
 import SignInPage from "./routes/Auth/SignInPage/SignInPage";
 import SignUpPage from "./routes/Auth/SignUpPage/SignUpPage";
-import AuthLayout from "./routes/Auth/AuthLayout/AuthLayout";
+import ViewportHeightLayout from "./routes/Auth/AuthLayout/ViewportHeightLayout";
 import ProductPage from "./routes/ProductPage/ProductPage";
 
 import { useEffect } from "react";
@@ -30,8 +30,21 @@ function App() {
       <Route path="/" element={<NavbarFooterLayout />}>
         <Route index element={<HomePage />} />
         <Route path="shop" element={<ShopPage />} />
-        <Route path="product/:id" element={<ProductPage />} />
-        <Route path="auth" element={<AuthLayout />}>
+        <Route
+          path="product"
+          element={
+            <ViewportHeightLayout className="flex justify-center items-center" />
+          }
+        >
+          <Route index element={<Navigate to="/shop" replace />} />
+          <Route path=":id" element={<ProductPage />} />
+        </Route>
+        <Route
+          path="auth"
+          element={
+            <ViewportHeightLayout className="flex justify-center items-center bg-blob-scatter bg-cover" />
+          }
+        >
           <Route index element={<Navigate to="sign-in" replace />} />
           <Route path="sign-in" element={<SignInPage />} />
           <Route path="sign-up" element={<SignUpPage />} />

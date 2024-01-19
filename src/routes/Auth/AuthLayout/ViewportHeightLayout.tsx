@@ -2,7 +2,15 @@ import useTailwindBreakpoints from "../../../hooks/useTailwindBreakpoints";
 
 import { Outlet } from "react-router-dom";
 
-const AuthLayout = () => {
+interface ViewportHeightLayoutProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
+const ViewportHeightLayout = ({
+  className,
+  children,
+}: ViewportHeightLayoutProps) => {
   const {
     windowWidth,
     lgBreakpoint,
@@ -16,7 +24,7 @@ const AuthLayout = () => {
 
   return (
     <section
-      className="flex justify-center items-center bg-blob-scatter bg-cover"
+      className={className}
       style={{
         minHeight: ((): string => {
           if (windowWidth >= lgBreakpoint) {
@@ -31,9 +39,9 @@ const AuthLayout = () => {
         })(),
       }}
     >
-      <Outlet />
+      {children ? children : <Outlet />}
     </section>
   );
 };
 
-export default AuthLayout;
+export default ViewportHeightLayout;
