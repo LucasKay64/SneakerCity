@@ -11,6 +11,7 @@ import SignInPage from "./routes/Auth/SignInPage/SignInPage";
 import SignUpPage from "./routes/Auth/SignUpPage/SignUpPage";
 import ViewportHeightLayout from "./routes/Auth/AuthLayout/ViewportHeightLayout";
 import ProductPage from "./routes/ProductPage/ProductPage";
+import CheckoutPage from "./routes/CheckoutPage/CheckoutPage";
 
 import { useEffect } from "react";
 
@@ -48,6 +49,14 @@ function App() {
           <Route index element={<Navigate to="sign-in" replace />} />
           <Route path="sign-in" element={<SignInPage />} />
           <Route path="sign-up" element={<SignUpPage />} />
+        </Route>
+        <Route
+          path="checkout"
+          element={
+            <ViewportHeightLayout className="flex justify-center items-center bg-blob-scatter bg-cover" />
+          }
+        >
+          <Route index element={<CheckoutPage />} />
         </Route>
       </Route>
     </Routes>

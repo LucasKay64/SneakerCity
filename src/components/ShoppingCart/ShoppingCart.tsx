@@ -14,9 +14,11 @@ import {
   selectCartItems,
   selectTotalCartPrice,
 } from "../../store/cartSlice/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const ShoppingCart = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const isCartOpen = useAppSelector(selectIsCartOpen);
   const cartItems = useAppSelector(selectCartItems);
@@ -110,6 +112,10 @@ const ShoppingCart = () => {
             className="w-full"
             disabled={isCartEmpty}
             variant={isCartEmpty ? "disabled" : "default"}
+            onClick={() => {
+              navigate("/checkout");
+              handleToggleCartOpen();
+            }}
           >
             Checkout
           </Button>
