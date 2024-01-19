@@ -21,6 +21,7 @@ import {
 import { useEffect, useState, useRef } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import NotFoundIcon from "../../assets/icons/not-found-icon.svg";
 
@@ -36,6 +37,7 @@ const ProductsList = () => {
   const [error, setError] = useState("");
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const abortController = useRef<AbortController>();
 
@@ -155,10 +157,12 @@ const ProductsList = () => {
 
           return (
             <ProductCard key={id}>
-              <ProductCardImage src={image_url} alt={name} />
-              <ProductCardTitle>{name}</ProductCardTitle>
-              <ProductCardDescription>{collection}</ProductCardDescription>
-              <ProductCardPrice>${price}</ProductCardPrice>
+              <div onClick={() => navigate(`/product/${id}`)}>
+                <ProductCardImage src={image_url} alt={name} />
+                <ProductCardTitle>{name}</ProductCardTitle>
+                <ProductCardDescription>{collection}</ProductCardDescription>
+                <ProductCardPrice>${price}</ProductCardPrice>
+              </div>
               <ProductCardButton onClick={() => handleAddToCart(product)}>
                 Add to cart
               </ProductCardButton>

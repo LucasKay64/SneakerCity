@@ -20,13 +20,14 @@ interface FormTextFieldProps extends React.HTMLAttributes<HTMLDivElement> {
     | "time"
     | "search"
     | "url";
-  label: string;
+  label?: string;
   name: string;
   id?: string;
   placeholder?: string;
   registration: UseFormRegisterReturn;
   error?: FieldError | undefined;
   disabled?: boolean;
+  inputSize?: "sm" | "default" | "lg";
 }
 
 const FormTextField = ({
@@ -39,13 +40,14 @@ const FormTextField = ({
   registration,
   error,
   disabled,
+  inputSize = "lg",
   ...props
 }: FormTextFieldProps) => {
   return (
     <div>
       <Label htmlFor={name}>{label}</Label>
       <Input
-        inputSize="lg"
+        inputSize={inputSize}
         id={id}
         placeholder={placeholder}
         type={type}

@@ -36,3 +36,19 @@ export const signUpSchema = yup.object({
     .trim(),
 });
 export type signUpFormDataType = yup.InferType<typeof signUpSchema>;
+
+export const addProductToCartSchema = yup.object({
+  quantity: yup
+    .number()
+    .transform((value, originalValue) =>
+      String(originalValue).trim() === "" ? null : value
+    )
+    .nullable()
+    .required("Quantity is required")
+    .integer("Quantity must be an integer")
+    .min(1, "Quantity must be at least 1")
+    .max(100, "Quantity must not exceed 100"),
+});
+export type addProductToCartFormDataType = yup.InferType<
+  typeof addProductToCartSchema
+>;
