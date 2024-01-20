@@ -1,11 +1,5 @@
-import { Button } from "../Button/Button";
-
-import { useAppDispatch } from "../../hooks/reduxHooks";
-import {
-  removeItemFromCartById,
-  increaseCartItemQuantity,
-  decreaseCartItemQuantity,
-} from "../../store/cartSlice/cartSlice";
+import CartItemQuantityControl from "../CartItemQuantityControl/CartItemQuantityControl";
+import RemoveCartItemButton from "../RemoveCartItemButton/RemoveCartItemButton";
 
 interface ShoppingCartItemProps {
   id: number;
@@ -24,20 +18,6 @@ const ShoppingCartItem = ({
   quantity,
   image_url,
 }: ShoppingCartItemProps) => {
-  const dispatch = useAppDispatch();
-
-  const handleRemoveItemFromCart = () => {
-    dispatch(removeItemFromCartById(id));
-  };
-
-  const handleIncreaseQuantity = () => {
-    dispatch(increaseCartItemQuantity(id));
-  };
-
-  const handleDecreaseQuantity = () => {
-    dispatch(decreaseCartItemQuantity(id));
-  };
-
   return (
     <>
       <div className="flex flex-col items-center py-3 sm:flex-row sm:justify-between">
@@ -49,32 +29,10 @@ const ShoppingCartItem = ({
             <p>Size: {size}</p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <Button
-            size="none"
-            className="w-8 h-8 rounded-md bg-gray-100 text-black"
-            onClick={handleDecreaseQuantity}
-          >
-            -
-          </Button>
+        <div className="flex items-center gap-4 mr-4">
+          <CartItemQuantityControl cartItemId={id} quantity={quantity} />
 
-          <p>{quantity}</p>
-
-          <Button
-            size="none"
-            className="w-8 h-8 rounded-md bg-gray-100 text-black"
-            onClick={handleIncreaseQuantity}
-          >
-            +
-          </Button>
-
-          <Button
-            size="none"
-            className="w-8 h-8 rounded-md bg-red-600"
-            onClick={handleRemoveItemFromCart}
-          >
-            X
-          </Button>
+          <RemoveCartItemButton cartItemId={id} />
         </div>
       </div>
       <hr />

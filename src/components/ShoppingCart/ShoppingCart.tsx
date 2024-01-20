@@ -72,11 +72,13 @@ const ShoppingCart = () => {
         </FloatingActionButton>
       )}
 
-      {/* visible on lg display */}
+      {/* visible on lg display*/}
       <BoxContainer
         className={`
-            hidden lg:fixed md:top-navbar-md right-2 min-w-[33%] px-4 
+            hidden lg:fixed md:top-navbar-md right-2 px-4 
             lg:grid transition-all duration-500 ease-in-out z-40
+            lg:w-1/2
+            2xl:w-1/3
             ${
               isCartOpen
                 ? "grid-rows-[1fr] py-2"

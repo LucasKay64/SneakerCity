@@ -110,7 +110,7 @@ const ProductPage = () => {
         <img
           src={product.image_url}
           alt="product image"
-          className="border-inherit"
+          className="border-inherit lg:h-[28rem] lg:w-[40rem]"
         />
       </BoxContainer>
 
