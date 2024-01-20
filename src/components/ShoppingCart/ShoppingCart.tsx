@@ -75,7 +75,7 @@ const ShoppingCart = () => {
       {/* visible on lg display*/}
       <BoxContainer
         className={`
-            hidden lg:fixed md:top-navbar-md right-2 px-4 
+            hidden lg:fixed lg:top-navbar-lg right-2 px-4 
             lg:grid transition-all duration-500 ease-in-out z-40
             lg:w-1/2
             2xl:w-1/3
