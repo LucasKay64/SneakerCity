@@ -7,7 +7,11 @@ import ShoppingCartWhite from "../../../assets/icons/shopping-cart-white.svg";
 import { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../hooks/reduxHooks";
-import { selectUser, signOutAsync } from "../../../store/userSlice/userSlice";
+import {
+  selectUser,
+  signOutAsync,
+  selectAppRole,
+} from "../../../store/userSlice/userSlice";
 import { toggleCartOpen } from "../../../store/cartSlice/cartSlice";
 
 import NavLink from "../../../components/NavLink/NavLink";
@@ -15,6 +19,8 @@ import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownM
 import Backdrop from "../../../components/Backdrop/Backdrop";
 import { Button } from "../../../components/Button/Button";
 import ShoppingCart from "../../../components/ShoppingCart/ShoppingCart";
+
+import { APP_ROLES } from "../../../types/appRoles";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,6 +31,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
 
   const { user, isLoading } = useAppSelector(selectUser);
+  const role = useAppSelector(selectAppRole);
 
   const toggleMenuOpen = () => {
     setIsMenuOpen((menuOpen) => !menuOpen);
@@ -82,6 +89,10 @@ const Navbar = () => {
             <NavLink to="/">Contact</NavLink>
             <hr className="w-full my-3" />
             <Button onClick={() => navigate("/auth/sign-in")}>Sign in</Button>
+            <hr className="w-full my-3" />
+            {role === APP_ROLES.ADMIN && (
+              <Button onClick={() => navigate("/admin")}>Admin Area</Button>
+            )}
           </div>
         </DropdownMenuMobile>
 
@@ -97,6 +108,17 @@ const Navbar = () => {
             flex items-center justify-center
             lg:gap-x-5"
         >
+          {role === APP_ROLES.ADMIN && (
+            <Button
+              className="hidden lg:block"
+              onClick={() => navigate("/admin")}
+              disabled={isLoading}
+              variant={isLoading ? "disabled" : "default"}
+            >
+              Admin Area
+            </Button>
+          )}
+
           {user ? (
             <Button
               className="hidden lg:block"

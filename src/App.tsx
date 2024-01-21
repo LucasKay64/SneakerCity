@@ -12,6 +12,10 @@ import SignUpPage from "./routes/Auth/SignUpPage/SignUpPage";
 import ViewportHeightLayout from "./routes/Auth/AuthLayout/ViewportHeightLayout";
 import ProductPage from "./routes/ProductPage/ProductPage";
 import CheckoutPage from "./routes/CheckoutPage/CheckoutPage";
+import AdminPage from "./routes/AdminPage/AdminPage";
+import ProtectedRoute from "./routes/Auth/ProtectedRoute/ProtectedRoute";
+
+import { APP_ROLES } from "./types/appRoles";
 
 import { useEffect } from "react";
 
@@ -29,6 +33,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<NavbarFooterLayout />}>
+        {/* public routes */}
         <Route index element={<HomePage />} />
         <Route path="shop" element={<ShopPage />} />
         <Route
@@ -58,6 +63,13 @@ function App() {
         >
           <Route index element={<CheckoutPage />} />
         </Route>
+
+        {/* private routes */}
+        <Route element={<ProtectedRoute allowedRoles={[APP_ROLES.ADMIN]} />}>
+          <Route path="admin" element={<AdminPage />} />
+        </Route>
+
+        {/* catch all / 404 route */}
       </Route>
     </Routes>
   );

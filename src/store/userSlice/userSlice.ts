@@ -208,5 +208,7 @@ const userSlice = createSlice({
 // export const {  } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;
+export const selectAppRole = (state: RootState): string =>
+  state.user.user?.app_metadata?.app_role;
 
 export const userReducer = userSlice.reducer;
