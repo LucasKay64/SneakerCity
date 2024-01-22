@@ -68,9 +68,19 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={[APP_ROLES.ADMIN]} />}>
           <Route path="admin" element={<AdminPage />} />
         </Route>
-
-        {/* catch all / 404 route */}
       </Route>
+
+      {/* catch all / 404 route */}
+      <Route
+        path="*"
+        element={
+          <div className="flex flex-col items-center">
+            {/* This is just temporary */}
+            <h1>404</h1>
+            <p>Page not found</p>
+          </div>
+        }
+      />
     </Routes>
   );
 }
