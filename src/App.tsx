@@ -14,6 +14,7 @@ import ProductPage from "./routes/ProductPage/ProductPage";
 import CheckoutPage from "./routes/CheckoutPage/CheckoutPage";
 import AdminPage from "./routes/AdminPage/AdminPage";
 import ProtectedRoute from "./routes/Auth/ProtectedRoute/ProtectedRoute";
+import ProductManagementPage from "./routes/ProductManagementPage/ProductManagementPage";
 
 import { APP_ROLES } from "./types/appRoles";
 
@@ -37,13 +38,11 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="shop" element={<ShopPage />} />
         <Route
-          path="product"
           element={
             <ViewportHeightLayout className="flex justify-center items-center" />
           }
         >
-          <Route index element={<Navigate to="/shop" replace />} />
-          <Route path=":id" element={<ProductPage />} />
+          <Route path="product/:id" element={<ProductPage />} />
         </Route>
         <Route
           path="auth"
@@ -56,17 +55,26 @@ function App() {
           <Route path="sign-up" element={<SignUpPage />} />
         </Route>
         <Route
-          path="checkout"
           element={
             <ViewportHeightLayout className="flex justify-center items-center bg-blob-scatter bg-cover" />
           }
         >
-          <Route index element={<CheckoutPage />} />
+          <Route path="checkout" element={<CheckoutPage />} />
         </Route>
 
         {/* private routes */}
         <Route element={<ProtectedRoute allowedRoles={[APP_ROLES.ADMIN]} />}>
-          <Route path="admin" element={<AdminPage />} />
+          <Route
+            element={
+              <ViewportHeightLayout className="flex justify-center items-center" />
+            }
+          >
+            <Route path="admin" element={<AdminPage />} />
+            <Route
+              path="admin/productManagement/:id"
+              element={<ProductManagementPage />}
+            />
+          </Route>
         </Route>
       </Route>
 

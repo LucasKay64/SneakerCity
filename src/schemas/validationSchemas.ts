@@ -52,3 +52,48 @@ export const addProductToCartSchema = yup.object({
 export type addProductToCartFormDataType = yup.InferType<
   typeof addProductToCartSchema
 >;
+
+export const productManagementSchema = yup.object({
+  name: yup
+    .string()
+    .required("Name is required")
+    .max(255, "Name must not exceed 255 characters")
+    .trim(),
+  description: yup
+    .string()
+    .required("Description is required")
+    .max(255, "Description must not exceed 255 characters")
+    .trim(),
+  brand: yup
+    .string()
+    .required("Brand is required")
+    .max(255, "Brand must not exceed 255 characters")
+    .trim(),
+  price: yup
+    .number()
+    .transform((value, originalValue) =>
+      String(originalValue).trim() === "" ? null : value
+    )
+    .nullable()
+    .required("Price is required")
+    .min(1, "Price must be at least 1")
+    .max(1000000, "Price must not exceed 1,000,000"),
+  color: yup
+    .string()
+    .required("Color is required")
+    .max(255, "Color must not exceed 255 characters")
+    .trim(),
+  collection: yup
+    .string()
+    .required("Collection is required")
+    .max(255, "Collection must not exceed 255 characters")
+    .trim(),
+  // image_url: yup
+  //   .string()
+  //   .required("Image URL is required")
+  //   .max(255, "Image URL must not exceed 255 characters")
+  //   .trim(),
+});
+export type productManagementFormDataType = yup.InferType<
+  typeof productManagementSchema
+>;
