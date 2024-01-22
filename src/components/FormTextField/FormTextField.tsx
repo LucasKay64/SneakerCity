@@ -4,13 +4,13 @@ import * as React from "react";
 import { UseFormRegisterReturn, FieldError } from "react-hook-form";
 
 import { cn } from "../../utils/utils";
-import { Input } from "../Input/Input";
+import { Input, InputProps } from "../Input/Input";
 import { Label } from "../Label/Label";
 
 // abstraction on the Input component for use in forms ( with the Form component )
 // has to be used within the Form component to work properly as its coupled with it and uses react-hook-form
 
-interface FormTextFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+interface FormTextFieldProps extends InputProps {
   type?:
     | "text"
     | "email"
@@ -22,12 +22,8 @@ interface FormTextFieldProps extends React.HTMLAttributes<HTMLDivElement> {
     | "url";
   label?: string;
   name: string;
-  id?: string;
-  placeholder?: string;
   registration: UseFormRegisterReturn;
   error?: FieldError | undefined;
-  disabled?: boolean;
-  inputSize?: "sm" | "default" | "lg";
 }
 
 const FormTextField = ({
@@ -35,11 +31,8 @@ const FormTextField = ({
   type = "text",
   label,
   name,
-  id,
-  placeholder,
-  registration,
+  registration, // this has to be extracted from the props beacause it spreads its own props
   error,
-  disabled,
   inputSize = "lg",
   ...props
 }: FormTextFieldProps) => {
@@ -48,8 +41,6 @@ const FormTextField = ({
       <Label htmlFor={name}>{label}</Label>
       <Input
         inputSize={inputSize}
-        id={id}
-        placeholder={placeholder}
         type={type}
         className={cn(
           `mt-1 ${error?.message ? "border-red-500" : ""}`,
@@ -57,7 +48,6 @@ const FormTextField = ({
         )}
         {...registration}
         {...props}
-        disabled={disabled}
       />
       {error?.message && <p className="text-red-500">{error.message}</p>}
     </div>
