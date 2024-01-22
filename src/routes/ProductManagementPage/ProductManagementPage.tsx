@@ -46,6 +46,18 @@ const ProductManagementPage = () => {
         onSubmit={(data) => console.log(data)}
         schema={productManagementSchema}
         className="flex flex-col gap-4"
+        defaultValues={
+          product
+            ? {
+                name: product.name,
+                description: product.description,
+                brand: product.brand,
+                price: product.price,
+                color: product.color,
+                collection: product.collection,
+              }
+            : undefined
+        }
       >
         {({ register, formState: { errors } }) => (
           <>
