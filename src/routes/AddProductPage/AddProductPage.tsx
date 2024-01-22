@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { BoxContainer } from "../../components/BoxContainer/BoxContainer";
 import { Button } from "../../components/Button/Button";
 import { Form } from "../../components/Form/Form";
@@ -7,34 +6,34 @@ import {
   productManagementSchema,
   productManagementFormDataType,
 } from "../../schemas/validationSchemas";
-import { useParams } from "react-router-dom";
-import { ProductDetails } from "../../types/dataTypes";
+
 import { fetchData } from "../../utils/dataUtils";
 
-const ProductManagementPage = () => {
-  const [product, setProduct] = useState<ProductDetails | null>(null);
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    if (id === "new") return;
-
-    const fetchProduct = async () => {
-      try {
-        const { data } = await fetchData<ProductDetails[]>(
-          `${
-            import.meta.env.VITE_SUPABASE_API_URL
-          }/Products?id=eq.${id}&select=id,name,description,brand,price,color,collection,image_url`
-        );
-
-        setProduct(data[0]);
-      } catch (error) {
-        console.log(error);
-      }
+const AddProductPage = () => {
+  const handleSubmit = async (data: productManagementFormDataType) => {
+    const dataToSend = {
+      ...data,
+      image_url:
+        "https://ycwumwfnjelxvcwzllib.supabase.co/storage/v1/object/public/sneakers/Nike/nike-air-force-1-white.png",
     };
 
-    fetchProduct();
-  }, [id]);
+    try {
+      await fetchData(
+        `${import.meta.env.VITE_SUPABASE_API_URL}/Products`,
+        {
+          method: "POST",
+          body: JSON.stringify(dataToSend),
+        },
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Prefer: "return=minimal",
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <BoxContainer className="px-3 sm:px-5 lg:px-10 py-5 w-full max-w-lg">
@@ -43,21 +42,9 @@ const ProductManagementPage = () => {
       </h1>
 
       <Form<productManagementFormDataType, typeof productManagementSchema>
-        onSubmit={(data) => console.log(data)}
+        onSubmit={handleSubmit}
         schema={productManagementSchema}
         className="flex flex-col gap-4"
-        defaultValues={
-          product
-            ? {
-                name: product.name,
-                description: product.description,
-                brand: product.brand,
-                price: product.price,
-                color: product.color,
-                collection: product.collection,
-              }
-            : undefined
-        }
       >
         {({ register, formState: { errors } }) => (
           <>
@@ -126,4 +113,4 @@ const ProductManagementPage = () => {
   );
 };
 
-export default ProductManagementPage;
+export default AddProductPage;

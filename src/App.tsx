@@ -14,7 +14,8 @@ import ProductPage from "./routes/ProductPage/ProductPage";
 import CheckoutPage from "./routes/CheckoutPage/CheckoutPage";
 import AdminPage from "./routes/AdminPage/AdminPage";
 import ProtectedRoute from "./routes/Auth/ProtectedRoute/ProtectedRoute";
-import ProductManagementPage from "./routes/ProductManagementPage/ProductManagementPage";
+import AddProductPage from "./routes/AddProductPage/AddProductPage";
+import EditProductPage from "./routes/EditProductPage/EditProductPage";
 
 import { APP_ROLES } from "./types/appRoles";
 
@@ -70,10 +71,8 @@ function App() {
             }
           >
             <Route path="admin" element={<AdminPage />} />
-            <Route
-              path="admin/productManagement/:id"
-              element={<ProductManagementPage />}
-            />
+            <Route path="admin/addProduct" element={<AddProductPage />} />
+            <Route path="admin/editProduct/:id" element={<EditProductPage />} />
           </Route>
         </Route>
       </Route>

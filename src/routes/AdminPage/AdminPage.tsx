@@ -125,7 +125,7 @@ const AdminPage = () => {
                 <TableCell className="text-center">
                   <Button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => navigate(`productManagement/${id}`)}
+                    onClick={() => navigate(`editProduct/${id}`)}
                   >
                     Edit
                   </Button>
@@ -142,9 +142,7 @@ const AdminPage = () => {
       </Table>
 
       <div className="text-center pt-5">
-        <Button onClick={() => navigate(`productManagement/new`)}>
-          Add product
-        </Button>
+        <Button onClick={() => navigate(`addProduct`)}>Add product</Button>
       </div>
     </BoxContainer>
   );
