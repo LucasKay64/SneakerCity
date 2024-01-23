@@ -1,5 +1,6 @@
 /* eslint-disable prefer-const */
 import resolveConfig from "tailwindcss/resolveConfig";
+// @ts-expect-error temporary workaround
 import tailwindConfig from "../../tailwind.config.js";
 
 import { useState, useEffect } from "react";

@@ -20,8 +20,11 @@ import EditProductPage from "./routes/EditProductPage/EditProductPage";
 import { APP_ROLES } from "./types/appRoles";
 
 import { useEffect } from "react";
+import useScrollToTop from "./hooks/useScrollToTop";
 
 function App() {
+  useScrollToTop();
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {

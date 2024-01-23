@@ -84,7 +84,7 @@ const Navbar = () => {
         {/* dropdown menu visible on mobile view only */}
         <DropdownMenuMobile isMenuOpen={isMenuOpen}>
           <div className="flex flex-col items-center">
-            <NavLink to="/">Shop</NavLink>
+            <NavLink to="/shop?page=1">Shop</NavLink>
             <NavLink to="/">About</NavLink>
             <NavLink to="/">Contact</NavLink>
             <hr className="w-full my-3" />

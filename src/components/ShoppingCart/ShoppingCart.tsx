@@ -57,7 +57,17 @@ const ShoppingCart = () => {
             <p className="font-bold text-lg">Total</p>
             <p className="font-bold text-lg">{`$${totalCartPrice}`}</p>
           </div>
-          <Button className="w-full">Checkout</Button>
+          <Button
+            className="w-full"
+            disabled={isCartEmpty}
+            variant={isCartEmpty ? "disabled" : "default"}
+            onClick={() => {
+              navigate("/checkout");
+              handleToggleCartOpen();
+            }}
+          >
+            Checkout
+          </Button>
         </div>
       </DropdownMenuMobile>
 
