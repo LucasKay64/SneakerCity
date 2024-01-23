@@ -33,13 +33,13 @@ const EditProductPage = () => {
       await fetchData(
         `${import.meta.env.VITE_SUPABASE_API_URL}/Products?id=eq.${id}`,
         {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Prefer: "return=minimal",
+          },
           method: "PATCH",
           body: JSON.stringify(dataToSend),
-        },
-        {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          Prefer: "return=minimal",
         }
       );
 
@@ -60,11 +60,14 @@ const EditProductPage = () => {
       await fetchData(
         `${import.meta.env.VITE_SUPABASE_API_URL}/Products?id=eq.${id}`,
         {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
           method: "DELETE",
-        },
-        {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
         }
+        // {
+        //   Authorization: `Bearer ${localStorage.getItem("token")}`,
+        // }
       );
 
       navigate("/admin");

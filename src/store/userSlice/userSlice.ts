@@ -36,11 +36,11 @@ export const signUpWithPasswordAsync = createAsyncThunk<
     const { data } = await fetchData<AuthResponse>(
       `${import.meta.env.VITE_SUPABASE_AUTH_URL}/signup`,
       {
+        headers: {
+          "Content-Type": "application/json",
+        },
         method: "POST",
         body: JSON.stringify(credentials),
-      },
-      {
-        "Content-Type": "application/json",
       }
     );
 
@@ -66,11 +66,11 @@ export const signInWithPasswordAsync = createAsyncThunk<
     const { data } = await fetchData<AuthResponse>(
       `${import.meta.env.VITE_SUPABASE_AUTH_URL}/token?grant_type=password`,
       {
+        headers: {
+          "Content-Type": "application/json",
+        },
         method: "POST",
         body: JSON.stringify(credentials),
-      },
-      {
-        "Content-Type": "application/json",
       }
     );
 
@@ -97,17 +97,14 @@ export const signOutAsync = createAsyncThunk(
         throw new Error("No token found");
       }
 
-      await fetchData(
-        `${import.meta.env.VITE_SUPABASE_AUTH_URL}/logout`,
-        {
-          method: "POST",
-          body: JSON.stringify({}),
-        },
-        {
+      await fetchData(`${import.meta.env.VITE_SUPABASE_AUTH_URL}/logout`, {
+        headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-        }
-      );
+        },
+        method: "POST",
+        body: JSON.stringify({}),
+      });
     } catch (error) {
       return rejectWithValue("Something went wrong, please try again later");
     } finally {
@@ -125,9 +122,10 @@ export const verifyTokenAndFetchUserAsync = createAsyncThunk<
   try {
     const { data } = await fetchData<User>(
       `${import.meta.env.VITE_SUPABASE_AUTH_URL}/user`,
-      {},
       {
-        Authorization: `Bearer ${token}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 

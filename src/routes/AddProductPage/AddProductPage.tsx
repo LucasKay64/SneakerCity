@@ -27,18 +27,15 @@ const AddProductPage = () => {
     try {
       setIsLoading(true);
       setError("");
-      await fetchData(
-        `${import.meta.env.VITE_SUPABASE_API_URL}/Products`,
-        {
-          method: "POST",
-          body: JSON.stringify(dataToSend),
-        },
-        {
+      await fetchData(`${import.meta.env.VITE_SUPABASE_API_URL}/Products`, {
+        headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           Prefer: "return=minimal",
-        }
-      );
+        },
+        method: "POST",
+        body: JSON.stringify(dataToSend),
+      });
 
       navigate("/admin");
     } catch (error) {

@@ -67,10 +67,10 @@ const ProductsList = () => {
           "&"
         )}`,
         {
+          headers: {
+            Prefer: "count=exact",
+          },
           signal: abortController.current.signal,
-        },
-        {
-          Prefer: "count=exact",
         }
       );
 

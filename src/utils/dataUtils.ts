@@ -2,15 +2,16 @@ import { AuthApiError } from "../errors/errors";
 
 export const fetchData = async <T>(
   url: string,
-  options: RequestInit = {},
-  additionalHeaders: HeadersInit = {}
+  options?: RequestInit
 ): Promise<{ data: T; headers: Headers }> => {
+  const modifiedHeaders = {
+    apikey: `${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+    ...options?.headers,
+  };
+
   const response = await fetch(url, {
-    headers: {
-      apikey: `${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-      ...additionalHeaders,
-    },
     ...options,
+    headers: modifiedHeaders,
   });
 
   if (!response.ok) {
