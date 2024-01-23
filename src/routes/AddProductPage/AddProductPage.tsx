@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BoxContainer } from "../../components/BoxContainer/BoxContainer";
 import { Button } from "../../components/Button/Button";
 import { Form } from "../../components/Form/Form";
@@ -8,8 +9,14 @@ import {
 } from "../../schemas/validationSchemas";
 
 import { fetchData } from "../../utils/dataUtils";
+import { useNavigate } from "react-router-dom";
 
 const AddProductPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (data: productManagementFormDataType) => {
     const dataToSend = {
       ...data,
@@ -18,6 +25,8 @@ const AddProductPage = () => {
     };
 
     try {
+      setIsLoading(true);
+      setError("");
       await fetchData(
         `${import.meta.env.VITE_SUPABASE_API_URL}/Products`,
         {
@@ -30,8 +39,14 @@ const AddProductPage = () => {
           Prefer: "return=minimal",
         }
       );
+
+      navigate("/admin");
     } catch (error) {
-      console.log(error);
+      setError(
+        "Something went wrong with adding the product. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,6 +70,7 @@ const AddProductPage = () => {
               placeholder="Name of product"
               registration={register("name")}
               error={errors.name}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -64,6 +80,7 @@ const AddProductPage = () => {
               placeholder="Description of product"
               registration={register("description")}
               error={errors.description}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -73,6 +90,7 @@ const AddProductPage = () => {
               placeholder="Brand of product"
               registration={register("brand")}
               error={errors.brand}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -83,6 +101,7 @@ const AddProductPage = () => {
               registration={register("price")}
               error={errors.price}
               type="number"
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -92,6 +111,7 @@ const AddProductPage = () => {
               placeholder="Color of product"
               registration={register("color")}
               error={errors.color}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -101,11 +121,19 @@ const AddProductPage = () => {
               placeholder="Collection of product"
               registration={register("collection")}
               error={errors.collection}
+              disabled={isLoading}
             />
 
-            <Button className="w-full" type="submit">
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={isLoading}
+              variant={isLoading ? "disabled" : "default"}
+            >
               Add product
             </Button>
+
+            {error && <p className="text-red-500 text-center">{error}</p>}
           </>
         )}
       </Form>

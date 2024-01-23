@@ -30,6 +30,9 @@ export const fetchData = async <T>(
     }
   }
 
-  const data = await response.json();
+  let data = null;
+  if (response.headers.get("Content-Type")?.includes("application/json")) {
+    data = await response.json();
+  }
   return { data: data, headers: response.headers };
 };

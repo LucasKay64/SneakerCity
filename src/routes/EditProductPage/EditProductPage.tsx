@@ -10,10 +10,14 @@ import {
 import { useParams } from "react-router-dom";
 import { ProductDetails } from "../../types/dataTypes";
 import { fetchData } from "../../utils/dataUtils";
+import { useNavigate } from "react-router-dom";
 
 const EditProductPage = () => {
   const [product, setProduct] = useState<ProductDetails | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const handleSubmit = async (data: productManagementFormDataType) => {
@@ -24,6 +28,8 @@ const EditProductPage = () => {
     };
 
     try {
+      setIsLoading(true);
+      setError("");
       await fetchData(
         `${import.meta.env.VITE_SUPABASE_API_URL}/Products?id=eq.${id}`,
         {
@@ -36,13 +42,21 @@ const EditProductPage = () => {
           Prefer: "return=minimal",
         }
       );
+
+      navigate("/admin");
     } catch (error) {
-      console.log(error);
+      setError(
+        "Something went wrong with editing the product. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDelete = async () => {
     try {
+      setIsLoading(true);
+      setError("");
       await fetchData(
         `${import.meta.env.VITE_SUPABASE_API_URL}/Products?id=eq.${id}`,
         {
@@ -52,14 +66,22 @@ const EditProductPage = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         }
       );
+
+      navigate("/admin");
     } catch (error) {
-      console.log(error);
+      setError(
+        "Something went wrong with deleting the product. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        setIsLoading(true);
+        setError("");
         const { data } = await fetchData<ProductDetails[]>(
           `${
             import.meta.env.VITE_SUPABASE_API_URL
@@ -68,7 +90,11 @@ const EditProductPage = () => {
 
         setProduct(data[0]);
       } catch (error) {
-        console.log(error);
+        setError(
+          "Something went wrong with loading the product. Please try again later."
+        );
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -107,6 +133,7 @@ const EditProductPage = () => {
               placeholder="Name of product"
               registration={register("name")}
               error={errors.name}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -116,6 +143,7 @@ const EditProductPage = () => {
               placeholder="Description of product"
               registration={register("description")}
               error={errors.description}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -125,6 +153,7 @@ const EditProductPage = () => {
               placeholder="Brand of product"
               registration={register("brand")}
               error={errors.brand}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -135,6 +164,7 @@ const EditProductPage = () => {
               registration={register("price")}
               error={errors.price}
               type="number"
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -144,6 +174,7 @@ const EditProductPage = () => {
               placeholder="Color of product"
               registration={register("color")}
               error={errors.color}
+              disabled={isLoading}
             />
 
             <FormTextField
@@ -153,20 +184,29 @@ const EditProductPage = () => {
               placeholder="Collection of product"
               registration={register("collection")}
               error={errors.collection}
+              disabled={isLoading}
             />
 
-            <Button className="w-full" type="submit">
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={isLoading}
+              variant={isLoading ? "disabled" : "default"}
+            >
               Edit product
             </Button>
 
             <Button
               className="w-full"
               type="button"
-              variant="danger"
               onClick={handleDelete}
+              disabled={isLoading}
+              variant={isLoading ? "disabled" : "danger"}
             >
               Delete product
             </Button>
+
+            {error && <p className="text-red-500 text-center">{error}</p>}
           </>
         )}
       </Form>
