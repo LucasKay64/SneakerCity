@@ -8,6 +8,7 @@ const buttonVariants = cva("rounded-xl", {
     variant: {
       default: "bg-blue-primary hover:bg-blue-secondary text-white",
       disabled: "bg-gray-300 text-gray-500 cursor-not-allowed",
+      danger: "bg-red-500 hover:bg-red-700 text-white",
       none: "",
     },
     size: {

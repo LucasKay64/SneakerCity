@@ -93,7 +93,6 @@ const AdminPage = () => {
             <TableHead className="min-w-[5rem]">Color</TableHead>
             <TableHead className="min-w-[10rem]">Collection</TableHead>
             <TableHead className="min-w-[3rem]">Edit</TableHead>
-            <TableHead className="min-w-[3rem]">Remove</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -128,11 +127,6 @@ const AdminPage = () => {
                     onClick={() => navigate(`editProduct/${id}`)}
                   >
                     Edit
-                  </Button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    Remove
                   </Button>
                 </TableCell>
               </TableRow>

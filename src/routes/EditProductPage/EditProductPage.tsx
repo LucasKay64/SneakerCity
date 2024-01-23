@@ -16,8 +16,45 @@ const EditProductPage = () => {
 
   const { id } = useParams();
 
-  const handleSubmit = (data: productManagementFormDataType) => {
-    console.log(data);
+  const handleSubmit = async (data: productManagementFormDataType) => {
+    const dataToSend = {
+      ...data,
+      image_url:
+        "https://ycwumwfnjelxvcwzllib.supabase.co/storage/v1/object/public/sneakers/Nike/nike-air-force-1-white.png",
+    };
+
+    try {
+      await fetchData(
+        `${import.meta.env.VITE_SUPABASE_API_URL}/Products?id=eq.${id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(dataToSend),
+        },
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Prefer: "return=minimal",
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await fetchData(
+        `${import.meta.env.VITE_SUPABASE_API_URL}/Products?id=eq.${id}`,
+        {
+          method: "DELETE",
+        },
+        {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -119,7 +156,16 @@ const EditProductPage = () => {
             />
 
             <Button className="w-full" type="submit">
-              Add product
+              Edit product
+            </Button>
+
+            <Button
+              className="w-full"
+              type="button"
+              variant="danger"
+              onClick={handleDelete}
+            >
+              Delete product
             </Button>
           </>
         )}
