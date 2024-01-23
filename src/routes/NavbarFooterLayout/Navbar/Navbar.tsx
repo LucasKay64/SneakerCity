@@ -4,6 +4,12 @@ import Logo from "../../../assets/images/logo.svg";
 import ShoppingCartBlack from "../../../assets/icons/shopping-cart-black.svg";
 import ShoppingCartWhite from "../../../assets/icons/shopping-cart-white.svg";
 
+import NavLink from "../../../components/NavLink/NavLink";
+import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownMenuMobile";
+import Backdrop from "../../../components/Backdrop/Backdrop";
+import { Button } from "../../../components/Button/Button";
+import ShoppingCart from "../../../components/ShoppingCart/ShoppingCart";
+
 import { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../hooks/reduxHooks";
@@ -13,12 +19,6 @@ import {
   selectAppRole,
 } from "../../../store/userSlice/userSlice";
 import { toggleCartOpen } from "../../../store/cartSlice/cartSlice";
-
-import NavLink from "../../../components/NavLink/NavLink";
-import DropdownMenuMobile from "../../../components/DropdownMenuMobile/DropdownMenuMobile";
-import Backdrop from "../../../components/Backdrop/Backdrop";
-import { Button } from "../../../components/Button/Button";
-import ShoppingCart from "../../../components/ShoppingCart/ShoppingCart";
 
 import { APP_ROLES } from "../../../types/appRoles";
 

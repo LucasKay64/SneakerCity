@@ -17,7 +17,7 @@ const RemoveCartItemButton = ({ cartItemId }: RemoveCartItemButtonProps) => {
   return (
     <Button
       size="none"
-      className="w-8 h-8 rounded-md bg-red-600"
+      className="w-8 h-8 rounded-md bg-red-500 hover:bg-red-600"
       onClick={handleRemoveItemFromCart}
     >
       X

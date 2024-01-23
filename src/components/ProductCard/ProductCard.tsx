@@ -10,7 +10,10 @@ const ProductCard = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("shadow-xl rounded-3xl border bg-white", className)}
+    className={cn(
+      "shadow-xl rounded-3xl border bg-white transition-transform duration-300 hover:scale-105",
+      className
+    )}
     {...props}
   />
 ));

@@ -1,6 +1,3 @@
-import * as React from "react";
-// import { cva, type VariantProps } from "class-variance-authority";
-
 import { UseFormRegisterReturn, FieldError } from "react-hook-form";
 
 import { cn } from "../../utils/utils";

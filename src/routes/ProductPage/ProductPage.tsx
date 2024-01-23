@@ -1,21 +1,23 @@
+import { useState, useEffect } from "react";
+
+import NotFoundIcon from "../../assets/icons/not-found-icon.svg";
+
 import { BoxContainer } from "../../components/BoxContainer/BoxContainer";
 import { Button } from "../../components/Button/Button";
+import { Form } from "../../components/Form/Form";
+import FormTextField from "../../components/FormTextField/FormTextField";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import InfoMessage from "../../components/InfoMessage/InfoMessage";
 
 import {
   addProductToCartSchema,
   addProductToCartFormDataType,
 } from "../../schemas/validationSchemas";
-import { Form } from "../../components/Form/Form";
-import FormTextField from "../../components/FormTextField/FormTextField";
 
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { fetchData } from "../../utils/dataUtils";
 import { ProductDetails } from "../../types/dataTypes";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import InfoMessage from "../../components/InfoMessage/InfoMessage";
-import NotFoundIcon from "../../assets/icons/not-found-icon.svg";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { addItemToCart } from "../../store/cartSlice/cartSlice";

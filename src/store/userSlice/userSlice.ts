@@ -146,6 +146,7 @@ const userSlice = createSlice({
     // sign up with email and password
     builder.addCase(signUpWithPasswordAsync.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(signUpWithPasswordAsync.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -162,6 +163,7 @@ const userSlice = createSlice({
     // sign in with email and password
     builder.addCase(signInWithPasswordAsync.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(signInWithPasswordAsync.fulfilled, (state, action) => {
       state.isLoading = false;

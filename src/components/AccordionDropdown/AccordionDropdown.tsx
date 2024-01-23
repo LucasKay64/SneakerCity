@@ -1,10 +1,10 @@
 import * as React from "react";
+import { useState, createContext, useContext } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../../utils/utils";
 
 import ArrowDownDropdown from "../../assets/icons/arrow-down-dropdown.svg";
-import { useState, createContext, useContext } from "react";
 
 const AccordionDropdownContext = createContext({
   isOpen: false,
@@ -61,7 +61,10 @@ const AccordionDropdownHeader = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("flex justify-between items-center", className)}
+      className={cn(
+        "flex justify-between items-center cursor-pointer",
+        className
+      )}
       {...props}
       onClick={toggleDropdownOpen}
     >

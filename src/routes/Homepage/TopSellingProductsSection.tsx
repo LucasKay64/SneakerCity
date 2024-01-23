@@ -6,7 +6,6 @@ import {
   ProductCardTitle,
   ProductCardDescription,
   ProductCardPrice,
-  ProductCardButton,
 } from "../../components/ProductCard/ProductCard";
 
 import HeroImage from "../../assets/images/heroImage.png";

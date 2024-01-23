@@ -1,11 +1,9 @@
 import * as React from "react";
-// import { cva, type VariantProps } from "class-variance-authority";
+import { useState } from "react";
 
 import { cn } from "../../utils/utils";
 
 import ArrowDownDropdown from "../../assets/icons/arrow-down-dropdown.svg";
-
-import { useState } from "react";
 
 interface PaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   totalPages?: number;

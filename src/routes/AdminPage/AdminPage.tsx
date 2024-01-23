@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchData } from "../../utils/dataUtils";
-import { ProductDetails } from "../../types/dataTypes";
+
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import InfoMessage from "../../components/InfoMessage/InfoMessage";
@@ -16,7 +15,10 @@ import {
   TableRow,
 } from "../../components/Table/Table";
 import { Button } from "../../components/Button/Button";
+
+import { ProductDetails } from "../../types/dataTypes";
 import { useNavigate } from "react-router-dom";
+import { fetchData } from "../../utils/dataUtils";
 
 const AdminPage = () => {
   const [products, setProducts] = useState<ProductDetails[]>([]);

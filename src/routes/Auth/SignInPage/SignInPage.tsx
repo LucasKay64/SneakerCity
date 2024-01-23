@@ -1,4 +1,9 @@
-import { Link } from "react-router-dom";
+import { BoxContainer } from "../../../components/BoxContainer/BoxContainer";
+import { Button } from "../../../components/Button/Button";
+import { Checkbox } from "../../../components/Checkbox/Checkbox";
+import { Form } from "../../../components/Form/Form";
+import FormTextField from "../../../components/FormTextField/FormTextField";
+
 import {
   signInSchema,
   signInFormDataType,
@@ -7,22 +12,25 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 import { selectUser } from "../../../store/userSlice/userSlice";
 import { signInWithPasswordAsync } from "../../../store/userSlice/userSlice";
 
-import { BoxContainer } from "../../../components/BoxContainer/BoxContainer";
-import { Button } from "../../../components/Button/Button";
-import { Checkbox } from "../../../components/Checkbox/Checkbox";
-import { Form } from "../../../components/Form/Form";
-import FormTextField from "../../../components/FormTextField/FormTextField";
-
 import Logo from "../../../assets/images/logo.svg";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SignInPage = () => {
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector(selectUser);
+  const navigate = useNavigate();
 
   const onSubmit = async (data: signInFormDataType) => {
     const { email, password } = data;
 
-    dispatch(signInWithPasswordAsync({ email, password }));
+    try {
+      await dispatch(signInWithPasswordAsync({ email, password })).unwrap();
+
+      navigate("/");
+    } catch (error) {
+      null;
+    }
   };
 
   return (

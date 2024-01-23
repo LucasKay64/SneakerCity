@@ -2,10 +2,10 @@ import { BoxContainer } from "../BoxContainer/BoxContainer";
 import DropdownMenuMobile from "../DropdownMenuMobile/DropdownMenuMobile";
 import ShoppingCartItem from "../ShoppingCartItem/ShoppingCartItem";
 import { FloatingActionButton } from "../FAB/FloatingActionButton";
-
 import Backdrop from "../Backdrop/Backdrop";
-import CrossIconWhite from "../../assets/icons/cross-icon-white.svg";
 import { Button } from "../Button/Button";
+
+import CrossIconWhite from "../../assets/icons/cross-icon-white.svg";
 
 import { useAppSelector, useAppDispatch } from "../../hooks/reduxHooks";
 import {
@@ -14,6 +14,7 @@ import {
   selectCartItems,
   selectTotalCartPrice,
 } from "../../store/cartSlice/cartSlice";
+
 import { useNavigate } from "react-router-dom";
 
 const ShoppingCart = () => {

@@ -28,7 +28,8 @@ const CartItemQuantityControl = ({
     <div className="flex items-center gap-4">
       <Button
         size="none"
-        className="w-8 h-8 rounded-md bg-gray-100 text-black"
+        variant="none"
+        className="w-8 h-8 rounded-md bg-gray-100 text-black hover:bg-gray-300"
         onClick={handleDecreaseQuantity}
       >
         -
@@ -38,7 +39,8 @@ const CartItemQuantityControl = ({
 
       <Button
         size="none"
-        className="w-8 h-8 rounded-md bg-gray-100 text-black"
+        variant="none"
+        className="w-8 h-8 rounded-md bg-gray-100 text-black hover:bg-gray-300"
         onClick={handleIncreaseQuantity}
       >
         +

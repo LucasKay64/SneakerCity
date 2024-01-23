@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         "blue-primary": "#068FFF",
-        "blue-secondary": "#4E4FEB",
+        "blue-secondary": "#5E1DE2",
       },
       spacing: {
         navbar: "50.13px", // for screens under sm

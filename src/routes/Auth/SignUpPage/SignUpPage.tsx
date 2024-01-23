@@ -1,4 +1,8 @@
-import { Link } from "react-router-dom";
+import { BoxContainer } from "../../../components/BoxContainer/BoxContainer";
+import { Button } from "../../../components/Button/Button";
+import { Form } from "../../../components/Form/Form";
+import FormTextField from "../../../components/FormTextField/FormTextField";
+
 import {
   signUpSchema,
   signUpFormDataType,
@@ -9,11 +13,7 @@ import {
 } from "../../../store/userSlice/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 import { useNavigate } from "react-router-dom";
-
-import { BoxContainer } from "../../../components/BoxContainer/BoxContainer";
-import { Button } from "../../../components/Button/Button";
-import { Form } from "../../../components/Form/Form";
-import FormTextField from "../../../components/FormTextField/FormTextField";
+import { Link } from "react-router-dom";
 
 import Logo from "../../../assets/images/logo.svg";
 
