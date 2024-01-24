@@ -36,6 +36,7 @@ Filtering of products works with storing the state in the URL, therefore the URL
 Filters parsing is done via a custom config ( filtersParsingConfig.ts ) which parses the filters to postgREST arguments ( postgREST is a solution that supabase uses to be provide endpoints straight from the DB ).
 
 Compound Component Pattern ( AccordionDropdown.tsx )
+
 Render Props pattern ( Form.tsx )
 
 Protected routes are based upon the role of the user ( Which it gets from the JWT ).
@@ -43,6 +44,7 @@ Protected routes are based upon the role of the user ( Which it gets from the JW
 CRUD is made on the products. An Admin in his admin dashboard can create a new product or delete / edit an existing one.
 
 Global Remote State is handled via Async Thunks in Redux toolkit. ( userSlice.ts )
+
 Global UI state is handled via reducers in Redux Toolkit. ( cartSlice.ts )
 
 The Project is using Supabase but i did not use the JS client library they provide ( mainly for learning purposes, but since i didnt include the library itself the budle size got smaller ). I query straight the underlying technology solutions that supabase is built upon. Therefore I increased the workload on my side because I had to manually do queries ( unlike the query builder in supabase client library) and authentication ( interacting with the GoTrue auth server and managing JWTs on my own ). For the protected resources I added a custom claim to the JWT sent by the auth server ( via Postgres functions ) and implemented protected resources with the custom claim ( using postgres ROW LEVEL SECURITY ).
