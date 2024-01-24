@@ -6,8 +6,8 @@ Live Demo: https://frabjous-sunburst-423f5d.netlify.app/
 
 ## App roles:
 
--user - someone who visits the site
--admin - someone that has been granted admin privileges ( you won't be able to access resources as an admin in the Live Demo because you don't have admin login credentials ).
+- user - someone who visits the site
+- admin - someone that has been granted admin privileges ( you won't be able to access resources as an admin in the Live Demo because you don't have admin login credentials ).
 
 ## User Level Features ( What can you do in the app ):
 
